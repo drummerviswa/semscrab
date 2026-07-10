@@ -9,6 +9,30 @@ const isArrearGrade = (grade) => (
   grade.grade === 'RA' ||
   grade.grade === 'U'
 );
+
+const getLatestUniqueGrades = (grades) => {
+  const latestByCourse = {};
+  grades.forEach(g => {
+    const code = g.courseCode;
+    const existing = latestByCourse[code];
+    if (!existing) {
+      latestByCourse[code] = g;
+    } else {
+      const existingIsPass = existing.status === 'PASS' || existing.gradePoints > 0;
+      const newIsPass = g.status === 'PASS' || g.gradePoints > 0;
+      if (newIsPass && !existingIsPass) {
+        latestByCourse[code] = g;
+      } else if (!newIsPass && existingIsPass) {
+        // Keep the passed attempt
+      } else {
+        if (g.semesterNo > existing.semesterNo) {
+          latestByCourse[code] = g;
+        }
+      }
+    }
+  });
+  return Object.values(latestByCourse);
+};
 const parseScopeList = (value) => String(value || '')
   .split(/[\n,]+/)
   .map(item => item.trim())
@@ -108,14 +132,19 @@ export async function GET(req) {
       let totalCredits = 0;
       let activeBacklogs = 0;
 
-      student.grades.forEach(g => {
+      const uniqueGrades = getLatestUniqueGrades(student.grades);
+
+      uniqueGrades.forEach(g => {
         if (!isPublishedGrade(g)) {
           return;
         }
 
-        // CGPA calculation (sum of credits * grade points) / sum of credits
-        totalPoints += g.credits * g.gradePoints;
-        totalCredits += g.credits;
+        // Only include passed courses in the CGPA calculation
+        const isPass = g.status === 'PASS' || g.gradePoints > 0;
+        if (isPass) {
+          totalPoints += g.credits * g.gradePoints;
+          totalCredits += g.credits;
+        }
         
         if (isArrearGrade(g)) {
           activeBacklogs++;

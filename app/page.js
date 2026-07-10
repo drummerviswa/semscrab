@@ -960,11 +960,20 @@ export default function Home() {
   };
 
   // GPA / CGPA Calculations
-  const publishedGrades = grades.filter(g => g.status !== "NOT_PUBLISHED");
-  const totalPoints = publishedGrades.reduce((acc, curr) => acc + (curr.credits * curr.gradePoints), 0);
-  const totalCredits = publishedGrades.reduce((acc, curr) => acc + curr.credits, 0);
+  const uniqueGrades = getLatestUniqueGrades(grades);
+  const publishedGrades = uniqueGrades.filter(g => g.status !== "NOT_PUBLISHED");
+  
+  // Only passed grades are included in the CGPA calculation
+  const passedGrades = publishedGrades.filter(g => g.status === "PASS" || g.gradePoints > 0);
+  const totalPoints = passedGrades.reduce((acc, curr) => acc + (curr.credits * curr.gradePoints), 0);
+  const totalCredits = passedGrades.reduce((acc, curr) => acc + curr.credits, 0);
   const currentCgpa = totalCredits > 0 ? parseFloat((totalPoints / totalCredits).toFixed(3)) : 0.0;
-  const arrearsCount = grades.filter(g => g.status === "FAIL" || g.grade === "RA" || (g.grade === "U" && g.status !== "NOT_PUBLISHED")).length;
+  
+  // Arrears are calculated based on the latest attempt of each unique course code
+  const arrearsCount = uniqueGrades.filter(g => 
+    g.status !== "NOT_PUBLISHED" && 
+    (g.status === "FAIL" || g.status === "RA" || g.grade === "RA" || g.grade === "U")
+  ).length;
 
   const inferredSem = (() => {
     if (!user || !user.batch) return null;
@@ -2786,3 +2795,28 @@ function getGradePoints(grade) {
 function formatBranchName(branch) {
   return `${branch.degree?.name || ''} ${branch.name}`.trim();
 }
+
+function getLatestUniqueGrades(grades) {
+  const latestByCourse = {};
+  grades.forEach(g => {
+    const code = g.courseCode;
+    const existing = latestByCourse[code];
+    if (!existing) {
+      latestByCourse[code] = g;
+    } else {
+      const existingIsPass = existing.status === 'PASS' || existing.gradePoints > 0;
+      const newIsPass = g.status === 'PASS' || g.gradePoints > 0;
+      if (newIsPass && !existingIsPass) {
+        latestByCourse[code] = g;
+      } else if (!newIsPass && existingIsPass) {
+        // Keep the passed attempt
+      } else {
+        if (g.semesterNo > existing.semesterNo) {
+          latestByCourse[code] = g;
+        }
+      }
+    }
+  });
+  return Object.values(latestByCourse);
+}
+
