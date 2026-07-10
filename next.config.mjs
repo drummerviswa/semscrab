@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  // Prevent playwright from being bundled into the server — it only runs locally
+  serverExternalPackages: ['playwright', 'playwright-core'],
 };
 
 export default nextConfig;
