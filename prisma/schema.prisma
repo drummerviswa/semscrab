@@ -1,0 +1,87 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id             String            @id @default(uuid())
+  rollNumber     String            @unique
+  name           String
+  passwordHash   String
+  role           String            @default("STUDENT") // "STUDENT", "PR", "ADMIN"
+  branch         String            // e.g. "MSc Integrated IT"
+  batch          String            // e.g. "2022-2027"
+  shareWithPR    Boolean           @default(false)
+  
+  // PR specific scope (if they are a PR, what they manage)
+  prBranch       String?           // Branch this PR is assigned to manage
+  prBatch        String?           // Batch this PR is assigned to manage
+
+  grades         CourseGrade[]
+  semesters      SemesterSummary[]
+  createdAt      DateTime          @default(now())
+}
+
+model CourseGrade {
+  id             String   @id @default(uuid())
+  user           User     @relation(fields: [userRollNumber], references: [rollNumber], onDelete: Cascade)
+  userRollNumber String
+  semesterNo     Int
+  courseCode     String
+  courseTitle    String
+  credits        Int
+  grade          String
+  gradePoints    Int
+  status         String   // "PASS", "RA", "SA", "W"
+}
+
+model SemesterSummary {
+  id             String   @id @default(uuid())
+  user           User     @relation(fields: [userRollNumber], references: [rollNumber], onDelete: Cascade)
+  userRollNumber String
+  semesterNo     Int
+  gpa            Float
+  creditsEarned  Int
+  
+  @@unique([userRollNumber, semesterNo])
+}
+
+model Degree {
+  id       String   @id @default(uuid())
+  name     String   @unique
+  branches Branch[]
+}
+
+model Branch {
+  id         String    @id @default(uuid())
+  name       String
+  degree     Degree    @relation(fields: [degreeId], references: [id], onDelete: Cascade)
+  degreeId   String
+  department String
+  subjects   Subject[]
+  
+  @@unique([degreeId, name])
+}
+
+model Regulation {
+  id       String    @id @default(uuid())
+  code     String    @unique
+  subjects Subject[]
+}
+
+model Subject {
+  id           String     @id @default(uuid())
+  code         String     @unique
+  title        String
+  credits      Int
+  branch       Branch     @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  branchId     String
+  regulation   Regulation @relation(fields: [regulationId], references: [id], onDelete: Cascade)
+  regulationId String
+  createdAt    DateTime   @default(now())
+}

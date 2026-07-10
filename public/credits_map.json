@@ -1,0 +1,452 @@
+{
+  "HS5152": {
+    "credits": 3,
+    "title": "Communicative English",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "MA5151": {
+    "credits": 4,
+    "title": "Calculus",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "PH5152": {
+    "credits": 4,
+    "title": "Applied Physics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5151": {
+    "credits": 4,
+    "title": "Digital Systems",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5152": {
+    "credits": 3,
+    "title": "Problem Solving and Programming PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "HS5161": {
+    "credits": 2,
+    "title": "Communication Skill Laboratory (Language)",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5161": {
+    "credits": 2,
+    "title": "Programming Laboratory TOTAL SEMESTER II S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "HS5252": {
+    "credits": 3,
+    "title": "Technical Communication",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "MA5251": {
+    "credits": 4,
+    "title": "Transform Techniques and Partial Differential Equations PROGRAM CORE COURSES () S. NO COURSE CODE COURSE TITLE CATEGORY TOTAL CONTACT PERIODS",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "CY5253": {
+    "credits": 4,
+    "title": "Chemistry of Materials",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5251": {
+    "credits": 4,
+    "title": "Object Oriented Programming in ++",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5252": {
+    "credits": 3,
+    "title": "Data Structures",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5253": {
+    "credits": 3,
+    "title": "Computer Architecture PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5261": {
+    "credits": 2,
+    "title": "Data Structures Laboratory TOTAL 2",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "MA5351": {
+    "credits": 4,
+    "title": "Logic and Abstract Algebra",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5351": {
+    "credits": 4,
+    "title": "Combinatorics and Graph Theory",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5352": {
+    "credits": 4,
+    "title": "Microprocessor and Applications",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5353": {
+    "credits": 3,
+    "title": "Operating Systems",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5354": {
+    "credits": 4,
+    "title": "Signals and Systems PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5361": {
+    "credits": 2,
+    "title": "Operating Systems Laboratory",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5362": {
+    "credits": 2,
+    "title": "Python Programming Laboratory TOTAL SEMESTER IV S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "MA5451": {
+    "credits": 4,
+    "title": "Probability and Statistics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5451": {
+    "credits": 4,
+    "title": "Theory of Computation",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5452": {
+    "credits": 3,
+    "title": "Database Management Systems",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5453": {
+    "credits": 3,
+    "title": "Java and Internet Programming",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5454": {
+    "credits": 4,
+    "title": "Computer Networks PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5461": {
+    "credits": 2,
+    "title": "Java and Internet Programming Laboratory",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5462": {
+    "credits": 2,
+    "title": "Database Management Systems Laboratory",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5463": {
+    "credits": 2,
+    "title": "Computational Laboratory using R TOTAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5501": {
+    "credits": 4,
+    "title": "Cryptography and Data Security",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5551": {
+    "credits": 3,
+    "title": "Software Engineering",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5551": {
+    "credits": 4,
+    "title": "Data Warehousing and Mining",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5552": {
+    "credits": 4,
+    "title": "Design and Analysis of Algorithms . Program Elective - I . Program Elective - II . Audit Course - I* AC PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5561": {
+    "credits": 2,
+    "title": "Software Development Laboratory TOTAL *Audit Course is Optional SEMESTER VI S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5651": {
+    "credits": 4,
+    "title": "Operations Research",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5601": {
+    "credits": 3,
+    "title": "Principles of Compiler Design",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5651": {
+    "credits": 3,
+    "title": "Web Technology",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5652": {
+    "credits": 4,
+    "title": "Artificial Intelligence . Program Elective - III PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5611": {
+    "credits": 2,
+    "title": "Compiler Design Laboratory",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5612": {
+    "credits": 2,
+    "title": "Mini Project TOTAL SEMESTER VII S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5711": {
+    "credits": 16,
+    "title": "Industrial Project TOTAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "MA5851": {
+    "credits": 4,
+    "title": "Advanced Statistical Methods for Computing",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5851": {
+    "credits": 4,
+    "title": "Big Data Analytics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5852": {
+    "credits": 4,
+    "title": "Distributed and Cloud Computing",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "GE5851": {
+    "credits": 3,
+    "title": "Environmental Science and Engineering . Program Elective - IV . Open Elective - I . Audit Course – II* AC PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5811": {
+    "credits": 2,
+    "title": "Creative and Innovative Project TOTAL * Audit course is Optional SEMESTER IX S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "MA5951": {
+    "credits": 4,
+    "title": "Numerical Methods",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5951": {
+    "credits": 3,
+    "title": "Internet Of Things",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5951": {
+    "credits": 4,
+    "title": "Advanced Machine Learning Techniques . Program Elective - V . Program Elective - VI . Open Elective - II PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "MA5961": {
+    "credits": 2,
+    "title": "Numerical Methods Laboratory",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5961": {
+    "credits": 2,
+    "title": "Internet Of Things Laboratory EMPLOYABILITY ENHANCEMENT COURSES () Sl.No COURSE CODE COURSE TITLE PERIODS PER WEEK CREDITS SEMESTERLecture Tutorial Practical",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5011": {
+    "credits": 10,
+    "title": "Project Work Total Credits: PROGRAM ELECTIVE COURSES () ELECTIVE I S.NO. COURSE CODE COURSE TITLE CATEGORY CONTACT PERIODS",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5071": {
+    "credits": 3,
+    "title": "NET Programming",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "MA5071": {
+    "credits": 3,
+    "title": "Linear Algebra",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5072": {
+    "credits": 3,
+    "title": "Information Coding Techniques",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5073": {
+    "credits": 3,
+    "title": "Human Computer Interface",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5074": {
+    "credits": 3,
+    "title": "Open Source Systems ELECTIVE II S.NO. COURSE CODE COURSE TITLE CATEGORY TOTAL CONTACT PERIODS",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5501": {
+    "credits": 4,
+    "title": "Advanced Database Management Systems",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5601": {
+    "credits": 3,
+    "title": "Computer Graphics and Multimedia",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5611": {
+    "credits": 2,
+    "title": "Computer Graphics and Multimedia Laboratory",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5612": {
+    "credits": 2,
+    "title": "Mini Project TOTAL SEMESTER VII S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS PRACTICAL",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5711": {
+    "credits": 16,
+    "title": "Industrial Project TOTAL",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5811": {
+    "credits": 2,
+    "title": "Creative and Innovative Project TOTAL SEMESTER IX S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5011": {
+    "credits": 18,
+    "title": "Project Work PROGRAM ELECTIVE COURSES () ELECTIVE I S.NO. COURSE CODE COURSE TITLE CATEGORY TOTAL CONTACT PERIODS",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XC5071": {
+    "credits": 3,
+    "title": "High speed networks",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XC5072": {
+    "credits": 3,
+    "title": "Unix Internals",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5075": {
+    "credits": 3,
+    "title": "Database Tuning",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5076": {
+    "credits": 3,
+    "title": "Software Project Management",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5077": {
+    "credits": 3,
+    "title": "Personal Software Processes ELECTIVE III S.NO. COURSE CODE COURSE TITLE CATEGORY TOTAL CONTACT PERIODS",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5078": {
+    "credits": 3,
+    "title": "Visualization Techniques",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5079": {
+    "credits": 3,
+    "title": "Digital Image Processing",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XC5073": {
+    "credits": 3,
+    "title": "Network Programming",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5080": {
+    "credits": 3,
+    "title": "Soft Computing",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XC5074": {
+    "credits": 3,
+    "title": "Natural Language Processing",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5081": {
+    "credits": 3,
+    "title": "Information Security",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  }
+}
