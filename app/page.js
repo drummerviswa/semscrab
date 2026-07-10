@@ -722,14 +722,14 @@ export default function Home() {
     }
   };
 
-  const triggerScrape = async () => {
+  const triggerScrape = async (forceCaptcha = false) => {
     if (!user) return;
 
     // Check if running on localhost to toggle between local Playwright window and hosted Captcha modal
     const isLocal = typeof window !== 'undefined' && 
       (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
-    if (isLocal) {
+    if (isLocal && !forceCaptcha) {
       setScraping(true);
       showToast("Opening SEMS portal in local browser window. Please complete login & CAPTCHA there!", "info");
       try {
@@ -749,7 +749,7 @@ export default function Home() {
         setScraping(false);
       }
     } else {
-      // Production: Open the CAPTCHA modal form
+      // Production or Force Captcha: Open the CAPTCHA modal form
       setScrapeRollNumber(user.rollNumber);
       setScrapePassword("");
       setScrapeCaptchaCode("");
@@ -1441,20 +1441,43 @@ export default function Home() {
               <div className="glass-card scraper-panel">
                 <div className="section-title">SEMS Results Integration</div>
                 
-                <div className="action-row">
-                  <button 
-                    disabled={scraping} 
-                    className="action-btn primary"
-                    onClick={triggerScrape}
-                  >
-                    {scraping ? "Automation Running..." : " Start Automated Fetch"}
-                  </button>
+                <div className="action-row" style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                  {typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? (
+                    <>
+                      <button 
+                        disabled={scraping} 
+                        className="action-btn primary"
+                        onClick={() => triggerScrape(false)}
+                        style={{ flex: 1 }}
+                      >
+                        {scraping ? "Automation Running..." : "Start Headed Fetch"}
+                      </button>
+                      <button 
+                        disabled={scraping} 
+                        className="action-btn primary"
+                        onClick={() => triggerScrape(true)}
+                        style={{ flex: 1, borderColor: "var(--primary)", color: "var(--primary)", background: "rgba(139, 92, 246, 0.05)" }}
+                      >
+                        Start CAPTCHA Fetch
+                      </button>
+                    </>
+                  ) : (
+                    <button 
+                      disabled={scraping} 
+                      className="action-btn primary"
+                      onClick={() => triggerScrape(true)}
+                      style={{ flex: 1 }}
+                    >
+                      {scraping ? "Automation Running..." : "Start Automated Fetch"}
+                    </button>
+                  )}
                   
                   <button 
                     className="action-btn"
                     onClick={() => setShowManualImport(!showManualImport)}
+                    style={{ flex: 1 }}
                   >
-                    {showManualImport ? "Hide Manual Paste" : " Import via HTML Paste"}
+                    {showManualImport ? "Hide Manual Paste" : "Import via HTML Paste"}
                   </button>
                 </div>
 
