@@ -722,13 +722,40 @@ export default function Home() {
     }
   };
 
-  const triggerScrape = () => {
+  const triggerScrape = async () => {
     if (!user) return;
-    setScrapeRollNumber(user.rollNumber);
-    setScrapePassword("");
-    setScrapeCaptchaCode("");
-    setShowScrapeModal(true);
-    fetchCaptcha();
+
+    // Check if running on localhost to toggle between local Playwright window and hosted Captcha modal
+    const isLocal = typeof window !== 'undefined' && 
+      (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+    if (isLocal) {
+      setScraping(true);
+      showToast("Opening SEMS portal in local browser window. Please complete login & CAPTCHA there!", "info");
+      try {
+        const res = await fetch("/api/scrape", { method: "POST" });
+        const data = await res.json();
+        if (res.ok) {
+          showToast(data.message, "success");
+          setSemesters(data.semesters || []);
+          setGrades(data.grades || []);
+          setHasGrades(true);
+        } else {
+          showToast(data.error || "Scraping failed", "error");
+        }
+      } catch (err) {
+        showToast("Scraping execution error", "error");
+      } finally {
+        setScraping(false);
+      }
+    } else {
+      // Production: Open the CAPTCHA modal form
+      setScrapeRollNumber(user.rollNumber);
+      setScrapePassword("");
+      setScrapeCaptchaCode("");
+      setShowScrapeModal(true);
+      fetchCaptcha();
+    }
   };
 
   const handleScrapeSubmit = async (e) => {

@@ -205,13 +205,45 @@ export async function POST(req) {
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     if (user.role !== 'STUDENT') return NextResponse.json({ error: 'Only student accounts can trigger SEMS scraping' }, { status: 403 });
 
-    const { semsPassword, captchaCode, sessionCookie } = await req.json();
-
-    if (!semsPassword || !captchaCode || !sessionCookie) {
-      return NextResponse.json({ error: 'Password, captcha code, and session cookie are required.' }, { status: 400 });
+    // Parse the body if available
+    let body = {};
+    try {
+      body = await req.json();
+    } catch (e) {
+      // Empty or non-JSON request body
     }
 
-    console.log(`HTTP Scraper trigger: Authenticating roll number ${user.rollNumber}...`);
+    const { semsPassword, captchaCode, sessionCookie } = body;
+
+    // IF semsPassword is not provided -> trigger the local Playwright browser scraper
+    if (!semsPassword) {
+      const IS_SERVERLESS = process.env.VERCEL === '1' || process.env.NODE_ENV === 'production';
+      if (IS_SERVERLESS) {
+        return NextResponse.json({
+          error: 'Automated browser scraping is not available in the hosted version. Please use the CAPTCHA login instead.',
+          useCaptchaModal: true
+        }, { status: 503 });
+      }
+
+      console.log(`API trigger (Local Playwright): Starting headed browser scrape for ${user.rollNumber}...`);
+      const { runSEMSScraper } = await import('@/lib/scraper');
+      const scrapeResult = await runSEMSScraper(user.rollNumber);
+
+      const [semesters, grades] = await Promise.all([
+        prisma.semesterSummary.findMany({ where: { userRollNumber: user.rollNumber }, orderBy: { semesterNo: 'asc' } }),
+        prisma.courseGrade.findMany({ where: { userRollNumber: user.rollNumber }, orderBy: [{ semesterNo: 'asc' }, { courseCode: 'asc' }] })
+      ]);
+
+      return NextResponse.json({ 
+        success: true, 
+        message: `Successfully scraped ${scrapeResult.count} courses.`, 
+        semesters, 
+        grades 
+      });
+    }
+
+    // IF semsPassword is provided -> trigger the HTTP CAPTCHA scraper (works on Vercel)
+    console.log(`API trigger (HTTP Scraper): Authenticating roll number ${user.rollNumber}...`);
 
     // 1. Submit login POST request to SEMS portal
     const loginParams = new URLSearchParams();
