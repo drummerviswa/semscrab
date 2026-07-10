@@ -1,11 +1,203 @@
 import { NextResponse } from 'next/server';
 import { getUserFromRequest } from '@/lib/auth';
-import { parseManualHTML } from '@/lib/scraper';
 import prisma from '@/lib/prisma';
+import https from 'https';
 
-// Playwright automated scraping is only available in local/self-hosted environments.
-// On Vercel serverless, students must use the "Import via HTML Paste" method instead.
-const IS_SERVERLESS = process.env.VERCEL === '1' || process.env.NODE_ENV === 'production';
+// Helper to make a secure/insecure HTTPS GET request
+function httpsGet(url, headers = {}) {
+  return new Promise((resolve, reject) => {
+    const options = {
+      rejectUnauthorized: false,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        ...headers
+      }
+    };
+    https.get(url, options, (res) => {
+      let data = [];
+      res.on('data', (chunk) => data.push(chunk));
+      res.on('end', () => {
+        resolve({
+          statusCode: res.statusCode,
+          headers: res.headers,
+          body: Buffer.concat(data)
+        });
+      });
+    }).on('error', reject);
+  });
+}
+
+// Helper to make a secure/insecure HTTPS POST request
+function httpsPost(url, bodyString, headers = {}) {
+  return new Promise((resolve, reject) => {
+    const parsedUrl = new URL(url);
+    const options = {
+      method: 'POST',
+      hostname: parsedUrl.hostname,
+      path: parsedUrl.pathname + parsedUrl.search,
+      rejectUnauthorized: false,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(bodyString),
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        ...headers
+      }
+    };
+    const req = https.request(options, (res) => {
+      let data = [];
+      res.on('data', (chunk) => data.push(chunk));
+      res.on('end', () => {
+        resolve({
+          statusCode: res.statusCode,
+          headers: res.headers,
+          body: Buffer.concat(data)
+        });
+      });
+    });
+    req.on('error', reject);
+    req.write(bodyString);
+    req.end();
+  });
+}
+
+function getGradePoints(grade) {
+  const g = (grade || '').trim().toUpperCase();
+  switch (g) {
+    case 'O': return 10;
+    case 'A+': return 9;
+    case 'A': return 8;
+    case 'B+': return 7;
+    case 'B': return 6;
+    case 'C': return 5;
+    default: return 0;
+  }
+}
+
+// Scrape helper: Extract semester number from HTML content
+function extractSemesterNo(html) {
+  const cleanText = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
+  const match = cleanText.match(/Semester\s*[:\-]?\s*([0-9]+)/i);
+  if (match) {
+    return parseInt(match[1]);
+  }
+  return null;
+}
+
+// Scrape helper: Extract grades from SEMS marks table
+function extractGradesFromHTML(html, semesterNo) {
+  const tableRegex = /<table[^>]*>([\s\S]*?)<\/table>/gi;
+  const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
+  const cellRegex = /<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi;
+
+  const tables = [];
+  let match;
+  while ((match = tableRegex.exec(html)) !== null) {
+    tables.push(match[1]);
+  }
+
+  if (tables.length === 0) return [];
+
+  const targetTableHTML = tables.find(t => {
+    const lower = t.toLowerCase();
+    return lower.includes('code') || lower.includes('grade') || lower.includes('subject');
+  }) || tables[0];
+
+  const rows = [];
+  let rowMatch;
+  while ((rowMatch = rowRegex.exec(targetTableHTML)) !== null) {
+    rows.push(rowMatch[1]);
+  }
+
+  if (rows.length === 0) return [];
+
+  const cleanText = (h) => {
+    return h
+      .replace(/<[^>]*>/g, '')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .trim();
+  };
+
+  const dataRows = [];
+  for (const rowHTML of rows) {
+    const cells = [];
+    let cellMatch;
+    cellRegex.lastIndex = 0;
+    while ((cellMatch = cellRegex.exec(rowHTML)) !== null) {
+      cells.push(cleanText(cellMatch[1]));
+    }
+    if (cells.length > 0) {
+      dataRows.push(cells);
+    }
+  }
+
+  if (dataRows.length === 0) return [];
+
+  const headers = dataRows[0];
+  const tableDataRows = dataRows.slice(1);
+
+  let codeIdx = -1;
+  let titleIdx = -1;
+  let creditsIdx = -1;
+  let gradeIdx = -1;
+  let statusIdx = -1;
+
+  headers.forEach((h, idx) => {
+    const text = h.toLowerCase();
+    if (text.includes('code') || text.includes('subject id') || text.includes('course id')) {
+      codeIdx = idx;
+    } else if (text.includes('title') || text.includes('name') || text.includes('subject')) {
+      if (text.includes('title') || text.includes('name')) {
+        titleIdx = idx;
+      } else if (titleIdx === -1) {
+        titleIdx = idx;
+      }
+    } else if (text.includes('credit')) {
+      creditsIdx = idx;
+    } else if (text.includes('grade')) {
+      gradeIdx = idx;
+    } else if (text.includes('result') || text.includes('status') || text.includes('remarks') || text.includes('outcome')) {
+      statusIdx = idx;
+    }
+  });
+
+  if (codeIdx === -1) codeIdx = 1;
+  if (titleIdx === -1) titleIdx = 2;
+  if (creditsIdx === -1) creditsIdx = 3;
+  if (gradeIdx === -1) gradeIdx = 4;
+  if (statusIdx === -1) statusIdx = 5;
+
+  const semesterGrades = [];
+
+  for (const row of tableDataRows) {
+    if (row.length <= Math.max(codeIdx, titleIdx, creditsIdx, gradeIdx)) continue;
+    
+    const code = row[codeIdx];
+    const title = row[titleIdx];
+    const creditsRaw = row[creditsIdx];
+    const grade = row[gradeIdx];
+    const status = statusIdx < row.length ? row[statusIdx] : 'PASS';
+
+    if (!code || code.trim() === '' || code.trim().length < 3) continue;
+
+    const credits = parseInt(creditsRaw);
+    if (isNaN(credits)) continue;
+
+    semesterGrades.push({
+      semesterNo,
+      courseCode: code.trim(),
+      courseTitle: title ? title.trim() : 'Unknown Course',
+      credits,
+      grade: grade ? grade.trim().toUpperCase() : 'U',
+      gradePoints: getGradePoints(grade || 'U'),
+      status: status ? status.trim().toUpperCase() : 'PASS'
+    });
+  }
+
+  return semesterGrades;
+}
 
 export async function POST(req) {
   try {
@@ -13,27 +205,191 @@ export async function POST(req) {
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     if (user.role !== 'STUDENT') return NextResponse.json({ error: 'Only student accounts can trigger SEMS scraping' }, { status: 403 });
 
-    // Automated scraper requires a local browser - not available on Vercel
-    if (IS_SERVERLESS) {
-      return NextResponse.json({
-        error: 'Automated browser scraping is not available in the hosted version. Please use "Import via HTML Paste" instead:\n1. Log into sems.annauniv.edu\n2. Open your results page\n3. Press Ctrl+U to view source\n4. Copy and paste the HTML here.',
-        useManualImport: true
-      }, { status: 503 });
+    const { semsPassword, captchaCode, sessionCookie } = await req.json();
+
+    if (!semsPassword || !captchaCode || !sessionCookie) {
+      return NextResponse.json({ error: 'Password, captcha code, and session cookie are required.' }, { status: 400 });
     }
 
-    console.log(`API trigger: Starting scrape for ${user.rollNumber}...`);
-    const { runSEMSScraper } = await import('@/lib/scraper');
-    const scrapeResult = await runSEMSScraper(user.rollNumber);
+    console.log(`HTTP Scraper trigger: Authenticating roll number ${user.rollNumber}...`);
 
-    const [semesters, grades] = await Promise.all([
+    // 1. Submit login POST request to SEMS portal
+    const loginParams = new URLSearchParams();
+    loginParams.append('username', user.rollNumber);
+    loginParams.append('password', semsPassword);
+    loginParams.append('captcha_code', captchaCode);
+    const postBody = loginParams.toString();
+
+    const loginRes = await httpsPost('https://acoe.annauniv.edu/sems/login/student', postBody, {
+      'Cookie': `ci_session=${sessionCookie}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Referer': 'https://acoe.annauniv.edu/sems/login/student'
+    });
+
+    // Check if session ID gets regenerated
+    let activeCookie = sessionCookie;
+    const newCookies = loginRes.headers['set-cookie'];
+    if (newCookies && newCookies.length > 0) {
+      const cookieStr = Array.isArray(newCookies) ? newCookies[0] : newCookies;
+      const match = cookieStr.match(/ci_session=([^;]+)/);
+      if (match) {
+        activeCookie = match[1];
+      }
+    }
+
+    // 2. Fetch marks page to verify login was successful
+    console.log(`HTTP Scraper: Loading SEMS marks page...`);
+    const marksRes = await httpsGet('https://acoe.annauniv.edu/sems/student/mark', {
+      'Cookie': `ci_session=${activeCookie}`
+    });
+
+    const marksHtml = marksRes.body.toString('utf-8');
+    if (marksHtml.includes('name="username"') || marksHtml.includes('id="password"') || !marksHtml.includes('<select')) {
+      return NextResponse.json({ 
+        error: 'Login failed. Please verify your SEMS roll number, password, and captcha code.' 
+      }, { status: 401 });
+    }
+
+    // 3. Find select element and option tags
+    const selectMatch = marksHtml.match(/<select[^>]+name="([^"]+)"/i);
+    if (!selectMatch) {
+      return NextResponse.json({ error: 'Could not find semester selection form on SEMS marks page.' }, { status: 500 });
+    }
+    const selectName = selectMatch[1];
+
+    // Find all option values inside the select element
+    const selectBlockMatch = marksHtml.match(/<select[\s\S]*?<\/select>/i);
+    const selectBlock = selectBlockMatch ? selectBlockMatch[0] : marksHtml;
+    
+    const optionRegex = /<option[^>]+value="([^"]+)"[^>]*>([\s\S]*?)<\/option>/gi;
+    const options = [];
+    let optionMatch;
+    while ((optionMatch = optionRegex.exec(selectBlock)) !== null) {
+      const val = optionMatch[1].trim();
+      const text = optionMatch[2].replace(/<[^>]*>/g, '').trim();
+      if (val && val !== '0') {
+        options.push({ value: val, text });
+      }
+    }
+
+    if (options.length === 0) {
+      return NextResponse.json({ error: 'No semesters found to scrape.' }, { status: 404 });
+    }
+
+    console.log(`HTTP Scraper: Found ${options.length} sessions to scrape. Commencing sync...`);
+
+    const allSemesterGrades = [];
+
+    // 4. Loop through options and fetch marks for each session
+    for (const opt of options) {
+      console.log(`HTTP Scraper: Fetching marks for ${opt.text}...`);
+      
+      const optParams = new URLSearchParams();
+      optParams.append(selectName, opt.value);
+      const optPostBody = optParams.toString();
+
+      const optRes = await httpsPost('https://acoe.annauniv.edu/sems/student/mark', optPostBody, {
+        'Cookie': `ci_session=${activeCookie}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Referer': 'https://acoe.annauniv.edu/sems/student/mark'
+      });
+
+      const optHtml = optRes.body.toString('utf-8');
+      
+      // Determine semester number from page
+      const semesterNo = extractSemesterNo(optHtml);
+      if (!semesterNo) {
+        console.log(`HTTP Scraper: Could not determine semester number for session ${opt.text}. Skipping.`);
+        continue;
+      }
+
+      // Extract course grades from HTML table
+      const grades = extractGradesFromHTML(optHtml, semesterNo);
+      if (grades.length > 0) {
+        allSemesterGrades.push(...grades);
+        console.log(`HTTP Scraper: Scraped ${grades.length} grades for Semester ${semesterNo}.`);
+      }
+    }
+
+    if (allSemesterGrades.length === 0) {
+      return NextResponse.json({ error: 'Could not extract academic data for any semester.' }, { status: 404 });
+    }
+
+    console.log(`HTTP Scraper: Syncing ${allSemesterGrades.length} courses to database...`);
+
+    // Group grades by semester for summaries
+    const gradesBySemester = {};
+    allSemesterGrades.forEach(g => {
+      if (!gradesBySemester[g.semesterNo]) {
+        gradesBySemester[g.semesterNo] = [];
+      }
+      gradesBySemester[g.semesterNo].push(g);
+    });
+
+    // 5. Update database inside a single transaction
+    await prisma.$transaction(async (tx) => {
+      // Delete old grades and summaries for this student
+      await tx.courseGrade.deleteMany({ where: { userRollNumber: user.rollNumber } });
+      await tx.semesterSummary.deleteMany({ where: { userRollNumber: user.rollNumber } });
+
+      // Insert new grades
+      await tx.courseGrade.createMany({
+        data: allSemesterGrades.map(g => ({
+          userRollNumber: user.rollNumber,
+          semesterNo: g.semesterNo,
+          courseCode: g.courseCode,
+          courseTitle: g.courseTitle,
+          credits: g.credits,
+          grade: g.grade,
+          gradePoints: g.gradePoints,
+          status: g.status
+        }))
+      });
+
+      // Insert semester summaries
+      for (const semNoStr of Object.keys(gradesBySemester)) {
+        const semNo = parseInt(semNoStr);
+        const semGrades = gradesBySemester[semNoStr];
+
+        let totalPoints = 0;
+        let totalCredits = 0;
+        semGrades.forEach(g => {
+          totalPoints += g.credits * g.gradePoints;
+          totalCredits += g.credits;
+        });
+
+        const gpa = totalCredits > 0 ? parseFloat((totalPoints / totalCredits).toFixed(3)) : 0.0;
+
+        await tx.semesterSummary.create({
+          data: {
+            userRollNumber: user.rollNumber,
+            semesterNo: semNo,
+            gpa,
+            creditsEarned: totalCredits
+          }
+        });
+      }
+    });
+
+    console.log(`HTTP Scraper: Successfully synchronized ${allSemesterGrades.length} courses for ${user.rollNumber}.`);
+
+    // Fetch refreshed summaries and grades
+    const [refreshedSemesters, refreshedGrades] = await Promise.all([
       prisma.semesterSummary.findMany({ where: { userRollNumber: user.rollNumber }, orderBy: { semesterNo: 'asc' } }),
       prisma.courseGrade.findMany({ where: { userRollNumber: user.rollNumber }, orderBy: [{ semesterNo: 'asc' }, { courseCode: 'asc' }] })
     ]);
 
-    return NextResponse.json({ success: true, message: `Successfully scraped ${scrapeResult.count} courses.`, semesters, grades });
+    return NextResponse.json({
+      success: true,
+      message: `Successfully synchronized ${allSemesterGrades.length} course grades from SEMS portal.`,
+      semesters: refreshedSemesters,
+      grades: refreshedGrades
+    });
   } catch (error) {
-    console.error('API scrape error:', error);
-    return NextResponse.json({ error: error.message || 'An error occurred during SEMS scraping' }, { status: 500 });
+    console.error('API HTTP scrape error:', error);
+    return NextResponse.json({ 
+      error: error.message || 'An error occurred during SEMS synchronization.' 
+    }, { status: 500 });
   }
 }
 

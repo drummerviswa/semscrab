@@ -56,6 +56,16 @@ export default function Home() {
   const [manualHtml, setManualHtml] = useState("");
   const [showManualImport, setShowManualImport] = useState(false);
 
+  // Scraper Modal States
+  const [showScrapeModal, setShowScrapeModal] = useState(false);
+  const [scrapeCaptchaImg, setScrapeCaptchaImg] = useState("");
+  const [scrapeCookie, setScrapeCookie] = useState("");
+  const [scrapePassword, setScrapePassword] = useState("");
+  const [scrapeCaptchaCode, setScrapeCaptchaCode] = useState("");
+  const [scrapeLoadingCaptcha, setScrapeLoadingCaptcha] = useState(false);
+  const [scrapeSubmitting, setScrapeSubmitting] = useState(false);
+  const [scrapeRollNumber, setScrapeRollNumber] = useState("");
+
   // PR Dashboard Data
   const [prStudents, setPrStudents] = useState([]);
   const [prScope, setPrScope] = useState({ branch: "", batch: "" });
@@ -693,24 +703,71 @@ export default function Home() {
     }
   };
 
-  const triggerScrape = async () => {
-    setScraping(true);
-    showToast("Opening SEMS portal in browser. Complete login and captcha there!", "info");
+  const fetchCaptcha = async () => {
+    setScrapeLoadingCaptcha(true);
     try {
-      const res = await fetch("/api/scrape", { method: "POST" });
+      const res = await fetch("/api/scrape/captcha");
       const data = await res.json();
-      if (res.ok) {
+      if (res.ok && data.success) {
+        setScrapeCaptchaImg(data.captchaImg);
+        setScrapeCookie(data.sessionCookie);
+        setScrapeCaptchaCode("");
+      } else {
+        showToast(data.error || "Failed to load CAPTCHA image", "error");
+      }
+    } catch (err) {
+      showToast("Error connecting to SEMS CAPTCHA service", "error");
+    } finally {
+      setScrapeLoadingCaptcha(false);
+    }
+  };
+
+  const triggerScrape = () => {
+    if (!user) return;
+    setScrapeRollNumber(user.rollNumber);
+    setScrapePassword("");
+    setScrapeCaptchaCode("");
+    setShowScrapeModal(true);
+    fetchCaptcha();
+  };
+
+  const handleScrapeSubmit = async (e) => {
+    e.preventDefault();
+    if (!scrapeRollNumber || !scrapePassword || !scrapeCaptchaCode || !scrapeCookie) {
+      showToast("All fields and CAPTCHA are required", "error");
+      return;
+    }
+    setScrapeSubmitting(true);
+    try {
+      const res = await fetch("/api/scrape", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          rollNumber: scrapeRollNumber,
+          semsPassword: scrapePassword,
+          captchaCode: scrapeCaptchaCode,
+          sessionCookie: scrapeCookie
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
         showToast(data.message, "success");
         setSemesters(data.semesters || []);
         setGrades(data.grades || []);
         setHasGrades(true);
+        setShowScrapeModal(false);
+        setScrapePassword("");
+        setScrapeCaptchaCode("");
       } else {
-        showToast(data.error || "Scraping failed", "error");
+        showToast(data.error || "SEMS synchronization failed", "error");
+        // Reload CAPTCHA because the previous one is now invalid/expired
+        fetchCaptcha();
       }
     } catch (err) {
-      showToast("Scraping execution error", "error");
+      showToast("SEMS synchronization execution error", "error");
+      fetchCaptcha();
     } finally {
-      setScraping(false);
+      setScrapeSubmitting(false);
     }
   };
 
@@ -2570,6 +2627,113 @@ export default function Home() {
                 </div>
               )}
             </>
+          )}
+
+          {/* SEMS Authentication Scraper Modal */}
+          {showScrapeModal && (
+            <div className="modal-overlay" onClick={() => setShowScrapeModal(false)}>
+              <div className="drawer-content" style={{ maxWidth: "450px" }} onClick={e => e.stopPropagation()}>
+                <div className="drawer-header">
+                  <div>
+                    <h3 style={{ fontSize: "1.25rem", fontWeight: "800" }}>SEMS Portal Integration</h3>
+                    <p style={{ color: "var(--text-muted)", fontSize: "0.8rem", margin: 0 }}>
+                      Enter your SEMS credentials and CAPTCHA to sync all semester grades.
+                    </p>
+                  </div>
+                  <button className="close-btn" onClick={() => setShowScrapeModal(false)}>
+                    <IconX size={14} />
+                  </button>
+                </div>
+                
+                <form onSubmit={handleScrapeSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginTop: "1rem" }}>
+                  <div className="form-group">
+                    <label className="form-label">Student Roll Number</label>
+                    <input 
+                      type="text" 
+                      required 
+                      className="form-input" 
+                      value={scrapeRollNumber} 
+                      onChange={e => setScrapeRollNumber(e.target.value)} 
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">SEMS Student Password</label>
+                    <input 
+                      type="password" 
+                      required 
+                      placeholder="Enter your SEMS portal password"
+                      className="form-input" 
+                      value={scrapePassword} 
+                      onChange={e => setScrapePassword(e.target.value)} 
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+                      <label className="form-label" style={{ margin: 0 }}>CAPTCHA Verification</label>
+                      <button 
+                        type="button" 
+                        className="tab-btn" 
+                        onClick={fetchCaptcha} 
+                        disabled={scrapeLoadingCaptcha}
+                        style={{ padding: "0.15rem 0.5rem", fontSize: "0.75rem", background: "none", border: "none", color: "var(--primary)" }}
+                      >
+                        {scrapeLoadingCaptcha ? "Loading..." : "🔄 Reload"}
+                      </button>
+                    </div>
+
+                    <div style={{ display: "flex", gap: "1rem", alignItems: "center", background: "rgba(255,255,255,0.02)", border: "1px solid var(--border-color)", padding: "0.75rem", borderRadius: "8px" }}>
+                      {scrapeLoadingCaptcha ? (
+                        <div style={{ flex: 1, textAlign: "center", fontSize: "0.85rem", color: "var(--text-muted)", padding: "0.5rem" }}>
+                          Fetching captcha image...
+                        </div>
+                      ) : scrapeCaptchaImg ? (
+                        <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+                          <img 
+                            src={scrapeCaptchaImg} 
+                            alt="SEMS Captcha" 
+                            style={{ height: "45px", borderRadius: "4px", border: "1px solid rgba(255,255,255,0.1)" }} 
+                          />
+                        </div>
+                      ) : (
+                        <div style={{ flex: 1, textAlign: "center", fontSize: "0.85rem", color: "var(--danger)", padding: "0.5rem" }}>
+                          Failed to load captcha. Click Reload.
+                        </div>
+                      )}
+                      
+                      <input 
+                        type="text" 
+                        required 
+                        placeholder="Type captcha code"
+                        className="form-input" 
+                        style={{ flex: 1, padding: "0.6rem", fontSize: "0.9rem", textAlign: "center" }}
+                        value={scrapeCaptchaCode} 
+                        onChange={e => setScrapeCaptchaCode(e.target.value)} 
+                      />
+                    </div>
+                  </div>
+
+                  <button 
+                    type="submit" 
+                    className="submit-btn" 
+                    style={{ marginTop: "0.5rem" }} 
+                    disabled={scrapeSubmitting || scrapeLoadingCaptcha}
+                  >
+                    {scrapeSubmitting ? (
+                      <>
+                        <div className="animate-spin" style={{ width: "14px", height: "14px", border: "2px solid currentColor", borderTopColor: "transparent", borderRadius: "50%", marginRight: "0.5rem" }}></div>
+                        Syncing All Semesters...
+                      </>
+                    ) : (
+                      <>
+                        <IconZap size={14} /> Sync SEMS Grades
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+            </div>
           )}
 
         </div>
