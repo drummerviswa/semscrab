@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getUserFromRequest } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import https from 'https';
+import crypto from 'crypto';
 
 // Helper to make a secure/insecure HTTPS GET request
 function httpsGet(url, headers = {}) {
@@ -246,9 +247,12 @@ export async function POST(req) {
     console.log(`API trigger (HTTP Scraper): Authenticating roll number ${user.rollNumber}...`);
 
     // 1. Submit login POST request to SEMS portal
+    // SEMS portal expects the password to be hashed client-side with SHA-512 before submission
+    const hashedPassword = crypto.createHash('sha512').update(semsPassword).digest('hex');
+
     const loginParams = new URLSearchParams();
     loginParams.append('username', user.rollNumber);
-    loginParams.append('password', semsPassword);
+    loginParams.append('password', hashedPassword);
     loginParams.append('captcha_code', captchaCode);
     const postBody = loginParams.toString();
 
