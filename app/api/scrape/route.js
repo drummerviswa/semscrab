@@ -282,6 +282,16 @@ export async function POST(req) {
     });
 
     const marksHtml = marksRes.body.toString('utf-8');
+
+    console.log("=== HTTP SCRAPER LOGIN RESPONSE DEBUG ===");
+    console.log("Login POST Status Code:", loginRes.statusCode);
+    console.log("Login POST Response Headers:", JSON.stringify(loginRes.headers, null, 2));
+    console.log("Verification Page Status Code:", marksRes.statusCode);
+    console.log("Verification Page HTML Length:", marksHtml.length);
+    const cleanVerificationText = marksHtml.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    console.log("Verification Page Text Snippet (1000 chars):", cleanVerificationText.substring(0, 1000));
+    console.log("=========================================");
+
     if (marksHtml.includes('name="username"') || marksHtml.includes('id="password"') || !marksHtml.includes('<select')) {
       return NextResponse.json({ 
         error: 'Login failed. Please verify your SEMS roll number, password, and captcha code.' 
