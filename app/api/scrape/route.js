@@ -259,7 +259,9 @@ export async function POST(req) {
     const loginRes = await httpsPost('https://acoe.annauniv.edu/sems/login/student', postBody, {
       'Cookie': `ci_session=${sessionCookie}`,
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Referer': 'https://acoe.annauniv.edu/sems/login/student'
+      'Referer': 'https://acoe.annauniv.edu/sems/login/student',
+      'Origin': 'https://acoe.annauniv.edu',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8'
     });
 
     // Check if session ID gets regenerated
