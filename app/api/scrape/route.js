@@ -308,12 +308,25 @@ export async function POST(req) {
       return NextResponse.json({ error: 'No semesters found to scrape.' }, { status: 404 });
     }
 
-    console.log(`HTTP Scraper: Found ${options.length} sessions to scrape. Commencing sync...`);
+    // Sort options chronologically (oldest first) so we can map indices to semesters as a fallback
+    const sortedOptions = [...options].sort((a, b) => {
+      const yearA = parseInt(a.text.match(/\d{4}/)?.[0] || '0');
+      const yearB = parseInt(b.text.match(/\d{4}/)?.[0] || '0');
+      if (yearA !== yearB) return yearA - yearB;
+      const isEvenA = a.text.toLowerCase().includes('even') || a.text.toLowerCase().includes('apr') || a.text.toLowerCase().includes('may');
+      const isEvenB = b.text.toLowerCase().includes('even') || b.text.toLowerCase().includes('apr') || b.text.toLowerCase().includes('may');
+      if (isEvenA && !isEvenB) return 1;
+      if (!isEvenA && isEvenB) return -1;
+      return 0;
+    });
+
+    console.log(`HTTP Scraper: Found ${sortedOptions.length} sessions to scrape. Commencing sync...`);
 
     const allSemesterGrades = [];
 
     // 4. Loop through options and fetch marks for each session
-    for (const opt of options) {
+    for (let i = 0; i < sortedOptions.length; i++) {
+      const opt = sortedOptions[i];
       console.log(`HTTP Scraper: Fetching marks for ${opt.text}...`);
       
       const optParams = new URLSearchParams();
@@ -329,10 +342,10 @@ export async function POST(req) {
       const optHtml = optRes.body.toString('utf-8');
       
       // Determine semester number from page
-      const semesterNo = extractSemesterNo(optHtml);
+      let semesterNo = extractSemesterNo(optHtml);
       if (!semesterNo) {
-        console.log(`HTTP Scraper: Could not determine semester number for session ${opt.text}. Skipping.`);
-        continue;
+        semesterNo = i + 1;
+        console.log(`HTTP Scraper: Could not determine semester number from page for session ${opt.text}. Falling back to option sequence: Semester ${semesterNo}`);
       }
 
       // Extract course grades from HTML table
