@@ -1182,7 +1182,7 @@ export default function Home() {
     return (
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", backgroundColor: "#06070d" }}>
         <div style={{ textAlign: "center" }}>
-          <div className="brand-title" style={{ fontSize: "2rem", marginBottom: "1rem" }}>SEMS ANALYZER</div>
+          <h1 className="brand-title" style={{ fontSize: "2rem", marginBottom: "1rem" }}>SEMS ANALYZER</h1>
           <div style={{ color: "var(--text-secondary)", fontSize: "0.875rem" }}>Securing connection and loading session...</div>
         </div>
       </div>
@@ -1194,7 +1194,7 @@ export default function Home() {
     return (
       <div className="app-container" style={{ justifyContent: "center" }}>
         <div className="brand-section" style={{ alignItems: "center", marginBottom: "1rem" }}>
-          <div className="brand-title" style={{ fontSize: "2.5rem" }}>SEMS ANALYZER</div>
+          <h1 className="brand-title" style={{ fontSize: "2.5rem" }}>SEMS ANALYZER</h1>
           <div className="brand-subtitle">Anna University (CEG / MIT) Placement & GPA Suite</div>
         </div>
         
@@ -1375,7 +1375,7 @@ export default function Home() {
       {/* Navigation bar */}
       <header className="app-header glass-card">
         <div className="brand-section">
-          <div className="brand-title">SEMS ANALYZER</div>
+          <h1 className="brand-title">SEMS ANALYZER</h1>
           <div className="brand-subtitle">{user.name} ({user.rollNumber})  {user.branch}</div>
         </div>
         
