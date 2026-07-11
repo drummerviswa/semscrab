@@ -111,7 +111,10 @@ async function httpsGetFollowRedirect(url, initialCookie) {
     const bodyText = res.body.toString('utf-8');
 
     // Check if the response contains the logout confirmation page form
-    if (bodyText.includes('logout_all_machine') && bodyText.includes('<form')) {
+    const isLogoutPage = currentUrl.includes('logout_all_machine') || 
+                         bodyText.includes('already logged in') || 
+                         bodyText.includes('logout_all');
+    if (isLogoutPage && bodyText.includes('<form')) {
       console.log(`HTTP Scraper: Found logout confirmation form. Simulating form submission...`);
       
       const actionMatch = bodyText.match(/<form[^>]+action="([^"]+)"/i);
@@ -341,10 +344,10 @@ function extractGradesFromHTML(html, semesterNo, creditsMap = {}) {
       if (!isNaN(parsed)) {
         credits = parsed;
       } else if (creditsMap[code]) {
-        credits = creditsMap[code];
+        credits = typeof creditsMap[code] === 'object' ? creditsMap[code].credits || 3 : creditsMap[code];
       }
     } else if (creditsMap[code]) {
-      credits = creditsMap[code];
+      credits = typeof creditsMap[code] === 'object' ? creditsMap[code].credits || 3 : creditsMap[code];
     }
 
     semesterGrades.push({
