@@ -265,38 +265,55 @@ function extractGradesFromHTML(html, semesterNo, creditsMap = {}) {
   if (dataRows.length === 0) return [];
 
   const headers = dataRows[0];
-  const tableDataRows = dataRows.slice(1);
+  let isHeaderRow = true;
 
-  let codeIdx = -1;
-  let titleIdx = -1;
+  if (headers && headers.length > 1) {
+    const secondCell = headers[1] || '';
+    if (secondCell.match(/^[a-z]{2,4}\d{3,4}/i)) {
+      isHeaderRow = false;
+    }
+  }
+
+  const tableDataRows = isHeaderRow ? dataRows.slice(1) : dataRows;
+
+  let codeIdx = 1;
+  let titleIdx = 2;
   let creditsIdx = -1;
-  let gradeIdx = -1;
+  let gradeIdx = 11;
   let statusIdx = -1;
 
-  headers.forEach((h, idx) => {
-    const text = h.toLowerCase();
-    if (text.includes('code') || text.includes('subject id') || text.includes('course id')) {
-      codeIdx = idx;
-    } else if (text.includes('title') || text.includes('name') || text.includes('subject')) {
-      if (text.includes('title') || text.includes('name')) {
-        titleIdx = idx;
-      } else if (titleIdx === -1) {
-        titleIdx = idx;
-      }
-    } else if (text.includes('credit')) {
-      creditsIdx = idx;
-    } else if (text.includes('grade')) {
-      gradeIdx = idx;
-    } else if (text.includes('result') || text.includes('status') || text.includes('remarks') || text.includes('outcome')) {
-      statusIdx = idx;
-    }
-  });
+  if (isHeaderRow) {
+    let parsedCodeIdx = -1;
+    let parsedTitleIdx = -1;
+    let parsedCreditsIdx = -1;
+    let parsedGradeIdx = -1;
+    let parsedStatusIdx = -1;
 
-  if (codeIdx === -1) codeIdx = 1;
-  if (titleIdx === -1) titleIdx = 2;
-  if (creditsIdx === -1) creditsIdx = 3;
-  if (gradeIdx === -1) gradeIdx = 4;
-  if (statusIdx === -1) statusIdx = 5;
+    headers.forEach((h, idx) => {
+      const text = h.toLowerCase();
+      if (text.includes('code') || text.includes('subject id') || text.includes('course id')) {
+        parsedCodeIdx = idx;
+      } else if (text.includes('title') || text.includes('name') || text.includes('subject')) {
+        if (text.includes('title') || text.includes('name')) {
+          parsedTitleIdx = idx;
+        } else if (parsedTitleIdx === -1) {
+          parsedTitleIdx = idx;
+        }
+      } else if (text.includes('credit')) {
+        parsedCreditsIdx = idx;
+      } else if (text.includes('grade')) {
+        parsedGradeIdx = idx;
+      } else if (text.includes('result') || text.includes('status') || text.includes('remarks') || text.includes('outcome')) {
+        parsedStatusIdx = idx;
+      }
+    });
+
+    if (parsedCodeIdx !== -1) codeIdx = parsedCodeIdx;
+    if (parsedTitleIdx !== -1) titleIdx = parsedTitleIdx;
+    if (parsedCreditsIdx !== -1) creditsIdx = parsedCreditsIdx;
+    if (parsedGradeIdx !== -1) gradeIdx = parsedGradeIdx;
+    if (parsedStatusIdx !== -1) statusIdx = parsedStatusIdx;
+  }
 
   const semesterGrades = [];
 
@@ -306,7 +323,14 @@ function extractGradesFromHTML(html, semesterNo, creditsMap = {}) {
     const code = (row[codeIdx] || '').trim();
     const title = row[titleIdx];
     const grade = row[gradeIdx];
-    const status = statusIdx < row.length ? row[statusIdx] : 'PASS';
+    
+    let status = 'PASS';
+    const gradeClean = grade ? grade.trim().toUpperCase() : 'U';
+    if (statusIdx !== -1 && statusIdx < row.length) {
+      status = row[statusIdx].trim().toUpperCase();
+    } else if (gradeClean === 'RA' || gradeClean === 'U' || gradeClean === 'W' || gradeClean === 'SA' || gradeClean === 'AB' || gradeClean === 'I') {
+      status = 'RA';
+    }
 
     if (!code || code.length < 3) continue;
 
@@ -476,16 +500,23 @@ export async function POST(req) {
       return NextResponse.json({ error: 'No semesters found to scrape.' }, { status: 404 });
     }
 
-    // Sort options chronologically (oldest first) so we can map indices to semesters as a fallback
+    const monthOrder = {
+      jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+      jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11
+    };
+
     const sortedOptions = [...options].sort((a, b) => {
-      const yearA = parseInt(a.text.match(/\d{4}/)?.[0] || '0');
-      const yearB = parseInt(b.text.match(/\d{4}/)?.[0] || '0');
+      const matchA = a.text.match(/([a-z]{3,10})\s+(\d{4})/i);
+      const matchB = b.text.match(/([a-z]{3,10})\s+(\d{4})/i);
+      
+      const yearA = matchA ? parseInt(matchA[2]) : 0;
+      const monthA = matchA ? monthOrder[matchA[1].toLowerCase().substring(0, 3)] || 0 : 0;
+      
+      const yearB = matchB ? parseInt(matchB[2]) : 0;
+      const monthB = matchB ? monthOrder[matchB[1].toLowerCase().substring(0, 3)] || 0 : 0;
+      
       if (yearA !== yearB) return yearA - yearB;
-      const isEvenA = a.text.toLowerCase().includes('even') || a.text.toLowerCase().includes('apr') || a.text.toLowerCase().includes('may');
-      const isEvenB = b.text.toLowerCase().includes('even') || b.text.toLowerCase().includes('apr') || b.text.toLowerCase().includes('may');
-      if (isEvenA && !isEvenB) return 1;
-      if (!isEvenA && isEvenB) return -1;
-      return 0;
+      return monthA - monthB;
     });
 
     console.log(`HTTP Scraper: Found ${sortedOptions.length} sessions to scrape. Commencing sync...`);
