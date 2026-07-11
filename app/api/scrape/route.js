@@ -502,38 +502,39 @@ export async function POST(req) {
     // 4. Loop through options and fetch marks for each session
     for (let i = 0; i < sortedOptions.length; i++) {
       const opt = sortedOptions[i];
-      console.log(`HTTP Scraper: Fetching marks for ${opt.text}...`);
+      console.log(`HTTP Scraper: Fetching marks for ${opt.text} via AJAX...`);
       
-      const optParams = new URLSearchParams();
-      optParams.append(selectName, opt.value);
-      const optPostBody = optParams.toString();
+      const ajaxPostBody = `regno=${encodeURIComponent(user.rollNumber)}&session=${encodeURIComponent(opt.value)}`;
 
-      const optRes = await httpsPost('https://acoe.annauniv.edu/sems/student/mark', optPostBody, {
+      const optRes = await httpsPost('https://acoe.annauniv.edu/sems/student/get_mark', ajaxPostBody, {
         'Cookie': `ci_session=${activeCookie}`,
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Referer': 'https://acoe.annauniv.edu/sems/student/mark'
+        'Referer': 'https://acoe.annauniv.edu/sems/student/mark',
+        'X-Requested-With': 'XMLHttpRequest'
       });
 
-      const optHtml = optRes.body.toString('utf-8');
-
-      console.log(`=== SESSION MARK FETCH DEBUG [${opt.text}] ===`);
-      console.log("Status Code:", optRes.statusCode);
-      console.log("Response Headers:", JSON.stringify(optRes.headers, null, 2));
-      console.log("HTML Snippet (1500 chars):", optHtml.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/\s+/g, ' ').substring(0, 1500));
-      console.log("==================================================");
+      const optText = optRes.body.toString('utf-8');
       
-      // Determine semester number from page
-      let semesterNo = extractSemesterNo(optHtml);
-      if (!semesterNo) {
-        semesterNo = i + 1;
-        console.log(`HTTP Scraper: Could not determine semester number from page for session ${opt.text}. Falling back to option sequence: Semester ${semesterNo}`);
-      }
-
-      // Extract course grades from HTML table
-      const grades = extractGradesFromHTML(optHtml, semesterNo, creditsMap);
-      if (grades.length > 0) {
-        allSemesterGrades.push(...grades);
-        console.log(`HTTP Scraper: Scraped ${grades.length} grades for Semester ${semesterNo}.`);
+      try {
+        const json = JSON.parse(optText);
+        if (json && json.result) {
+          // Determine semester number from json.student.sem or fallback
+          let semesterNo = json.student && json.student.sem ? parseInt(json.student.sem) : null;
+          if (!semesterNo) {
+            semesterNo = i + 1;
+            console.log(`HTTP Scraper: Could not determine semester number from AJAX response for session ${opt.text}. Falling back to option sequence: Semester ${semesterNo}`);
+          }
+          
+          const grades = extractGradesFromHTML(json.msg, semesterNo, creditsMap);
+          if (grades.length > 0) {
+            allSemesterGrades.push(...grades);
+            console.log(`HTTP Scraper: Scraped ${grades.length} grades for Semester ${semesterNo}.`);
+          }
+        } else {
+          console.log(`HTTP Scraper: AJAX returned failure for session ${opt.text}:`, json.msg || 'Unknown error');
+        }
+      } catch (err) {
+        console.error(`HTTP Scraper: Error parsing AJAX marks response for session ${opt.text}:`, err);
       }
     }
 
