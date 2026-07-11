@@ -2716,6 +2716,8 @@ export default function Home() {
                   className="form-input" 
                   value={scrapeRollNumber} 
                   onChange={e => setScrapeRollNumber(e.target.value)} 
+                  disabled={user && user.role?.toLowerCase() === 'student'}
+                  style={user && user.role?.toLowerCase() === 'student' ? { opacity: 0.7, cursor: "not-allowed", backgroundColor: "rgba(255, 255, 255, 0.05)" } : {}}
                 />
               </div>
 

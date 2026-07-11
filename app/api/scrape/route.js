@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getUserFromRequest } from '@/lib/auth';
 import prisma from '@/lib/prisma';
-import https from 'https';
 import crypto from 'crypto';
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
 
 // Helper to make a secure/insecure HTTPS GET request
 function httpsGet(url, headers = {}) {
@@ -130,7 +132,7 @@ function extractSemesterNo(html) {
 }
 
 // Scrape helper: Extract grades from SEMS marks table
-function extractGradesFromHTML(html, semesterNo) {
+function extractGradesFromHTML(html, semesterNo, creditsMap = {}) {
   const tableRegex = /<table[^>]*>([\s\S]*?)<\/table>/gi;
   const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
   const cellRegex = /<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi;
@@ -218,22 +220,31 @@ function extractGradesFromHTML(html, semesterNo) {
   const semesterGrades = [];
 
   for (const row of tableDataRows) {
-    if (row.length <= Math.max(codeIdx, titleIdx, creditsIdx, gradeIdx)) continue;
+    if (row.length <= Math.max(codeIdx, titleIdx, gradeIdx)) continue;
     
-    const code = row[codeIdx];
+    const code = (row[codeIdx] || '').trim();
     const title = row[titleIdx];
-    const creditsRaw = row[creditsIdx];
     const grade = row[gradeIdx];
     const status = statusIdx < row.length ? row[statusIdx] : 'PASS';
 
-    if (!code || code.trim() === '' || code.trim().length < 3) continue;
+    if (!code || code.length < 3) continue;
 
-    const credits = parseInt(creditsRaw);
-    if (isNaN(credits)) continue;
+    // Resolve credits: check table first, then lookup from the credits map, fallback to 3
+    let credits = 3;
+    if (creditsIdx !== -1 && creditsIdx < row.length) {
+      const parsed = parseInt(row[creditsIdx]);
+      if (!isNaN(parsed)) {
+        credits = parsed;
+      } else if (creditsMap[code]) {
+        credits = creditsMap[code];
+      }
+    } else if (creditsMap[code]) {
+      credits = creditsMap[code];
+    }
 
     semesterGrades.push({
       semesterNo,
-      courseCode: code.trim(),
+      courseCode: code,
       courseTitle: title ? title.trim() : 'Unknown Course',
       credits,
       grade: grade ? grade.trim().toUpperCase() : 'U',
@@ -398,6 +409,18 @@ export async function POST(req) {
 
     console.log(`HTTP Scraper: Found ${sortedOptions.length} sessions to scrape. Commencing sync...`);
 
+    // Load credits mapping
+    let creditsMap = {};
+    try {
+      const creditsMapPath = path.join(process.cwd(), 'public', 'credits_map.json');
+      if (fs.existsSync(creditsMapPath)) {
+        creditsMap = JSON.parse(fs.readFileSync(creditsMapPath, 'utf8'));
+        console.log(`HTTP Scraper: Loaded ${Object.keys(creditsMap).length} credits from public/credits_map.json`);
+      }
+    } catch (err) {
+      console.error('HTTP Scraper: Failed to load credits map:', err);
+    }
+
     const allSemesterGrades = [];
 
     // 4. Loop through options and fetch marks for each session
@@ -425,7 +448,7 @@ export async function POST(req) {
       }
 
       // Extract course grades from HTML table
-      const grades = extractGradesFromHTML(optHtml, semesterNo);
+      const grades = extractGradesFromHTML(optHtml, semesterNo, creditsMap);
       if (grades.length > 0) {
         allSemesterGrades.push(...grades);
         console.log(`HTTP Scraper: Scraped ${grades.length} grades for Semester ${semesterNo}.`);
