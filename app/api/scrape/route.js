@@ -209,13 +209,18 @@ function extractSemesterNo(html) {
 
 // Scrape helper: Extract grades from SEMS marks table
 function extractGradesFromHTML(html, semesterNo, creditsMap = {}) {
+  let cleanHtml = html;
+  if (!html.toLowerCase().includes('<table')) {
+    cleanHtml = `<table>${html}</table>`;
+  }
+
   const tableRegex = /<table[^>]*>([\s\S]*?)<\/table>/gi;
   const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
   const cellRegex = /<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi;
 
   const tables = [];
   let match;
-  while ((match = tableRegex.exec(html)) !== null) {
+  while ((match = tableRegex.exec(cleanHtml)) !== null) {
     tables.push(match[1]);
   }
 
