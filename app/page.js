@@ -963,11 +963,35 @@ export default function Home() {
   const uniqueGrades = getLatestUniqueGrades(grades);
   const publishedGrades = uniqueGrades.filter(g => g.status !== "NOT_PUBLISHED");
   
-  // Only passed grades are included in the CGPA calculation
-  const passedGrades = publishedGrades.filter(g => g.status === "PASS" || g.gradePoints > 0);
-  const totalPoints = passedGrades.reduce((acc, curr) => acc + (curr.credits * curr.gradePoints), 0);
-  const totalCredits = passedGrades.reduce((acc, curr) => acc + curr.credits, 0);
-  const currentCgpa = totalCredits > 0 ? parseFloat((totalPoints / totalCredits).toFixed(3)) : 0.0;
+  // Group published unique grades by semester
+  const gradesBySem = {};
+  publishedGrades.forEach(g => {
+    if (!gradesBySem[g.semesterNo]) {
+      gradesBySem[g.semesterNo] = [];
+    }
+    gradesBySem[g.semesterNo].push(g);
+  });
+
+  const semesterGpas = [];
+  let totalCredits = 0;
+  let totalPoints = 0;
+  
+  Object.keys(gradesBySem).forEach(semNo => {
+    const semGrades = gradesBySem[semNo];
+    const passedSemGrades = semGrades.filter(g => g.status === "PASS" || g.gradePoints > 0);
+    const semPoints = passedSemGrades.reduce((acc, curr) => acc + (curr.credits * curr.gradePoints), 0);
+    const semCredits = passedSemGrades.reduce((acc, curr) => acc + curr.credits, 0);
+    if (semCredits > 0) {
+      const semGpa = parseFloat((semPoints / semCredits).toFixed(2));
+      semesterGpas.push(semGpa);
+      totalCredits += semCredits;
+      totalPoints += semPoints;
+    }
+  });
+
+  const currentCgpa = semesterGpas.length > 0 
+    ? parseFloat((semesterGpas.reduce((acc, val) => acc + val, 0) / semesterGpas.length).toFixed(2)) 
+    : 0.0;
   
   // Arrears are calculated based on the latest attempt of each unique course code
   const arrearsCount = uniqueGrades.filter(g => 
@@ -1012,7 +1036,7 @@ export default function Home() {
     // target * (totalCredits + remCreds) = totalPoints + remCreds * reqGpa
     // reqGpa = (target * (totalCredits + remCreds) - totalPoints) / remCreds
     const reqGpa = ((target * (totalCredits + remCreds)) - totalPoints) / remCreds;
-    return reqGpa > 0 ? parseFloat(reqGpa.toFixed(3)) : 0.0;
+    return reqGpa > 0 ? parseFloat(reqGpa.toFixed(2)) : 0.0;
   })();
 
   // Simulated Custom Courses Addition
@@ -1676,7 +1700,7 @@ export default function Home() {
                   {targetRequiredGpa !== null && (
                     <div className="sim-result-box">
                       <div className="sim-result-val">
-                        {targetRequiredGpa > 10 ? "Not Possible" : targetRequiredGpa.toFixed(3)}
+                        {targetRequiredGpa > 10 ? "Not Possible" : targetRequiredGpa.toFixed(2)}
                       </div>
                       <div className="brand-subtitle">
                         {targetRequiredGpa > 10 
@@ -1778,13 +1802,13 @@ export default function Home() {
             </div>
             <div className="glass-card kpi-card">
               <div className="kpi-title">Average CGPA</div>
-              <div className="kpi-value">{prAverageCgpa.toFixed(3)}</div>
+              <div className="kpi-value">{prAverageCgpa.toFixed(2)}</div>
               <div className="kpi-sub">Published-credit students only</div>
             </div>
             <div className="glass-card kpi-card">
               <div className="kpi-title">Top Performer</div>
               <div className="kpi-value" style={{ fontSize: "1.1rem" }}>{prTopper ? prTopper.name : "N/A"}</div>
-              <div className="kpi-sub">{prTopper ? `${prTopper.rollNumber} | CGPA ${prTopper.cgpa.toFixed(3)}` : "No published results"}</div>
+              <div className="kpi-sub">{prTopper ? `${prTopper.rollNumber} | CGPA ${prTopper.cgpa.toFixed(2)}` : "No published results"}</div>
             </div>
             <div className="glass-card kpi-card">
               <div className="kpi-title">Attention Needed</div>
@@ -1948,7 +1972,7 @@ export default function Home() {
                       </span>
                       
                       <span className="student-cgpa-score" style={{ width: "80px", display: "inline-block", textAlign: "right" }}>
-                        {student.cgpa.toFixed(3)}
+                        {student.cgpa.toFixed(2)}
                       </span>
                     </div>
                   </div>

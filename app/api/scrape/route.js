@@ -258,7 +258,19 @@ function extractGradesFromHTML(html, semesterNo, creditsMap = {}) {
     let cellMatch;
     cellRegex.lastIndex = 0;
     while ((cellMatch = cellRegex.exec(rowHTML)) !== null) {
-      cells.push(cleanText(cellMatch[1]));
+      const cellHTML = cellMatch[0];
+      const cellContent = cellMatch[1];
+      const text = cleanText(cellContent);
+      
+      const isNotPublished = cellHTML.includes('cell-3') || 
+                             (text === '' && (cellHTML.includes('cell-3') || cellHTML.includes('#8fbcbf') || !cellHTML.includes('background-color')));
+      const isWithheld = cellHTML.includes('cell-4');
+
+      cells.push({
+        text,
+        isNotPublished,
+        isWithheld
+      });
     }
     if (cells.length > 0) {
       dataRows.push(cells);
@@ -272,7 +284,8 @@ function extractGradesFromHTML(html, semesterNo, creditsMap = {}) {
 
   if (headers && headers.length > 1) {
     const secondCell = headers[1] || '';
-    if (secondCell.match(/^[a-z]{2,4}\d{3,4}/i)) {
+    const secondCellText = typeof secondCell === 'object' ? secondCell.text : secondCell;
+    if (secondCellText.match(/^[a-z]{2,4}\d{3,4}/i)) {
       isHeaderRow = false;
     }
   }
@@ -293,7 +306,7 @@ function extractGradesFromHTML(html, semesterNo, creditsMap = {}) {
     let parsedStatusIdx = -1;
 
     headers.forEach((h, idx) => {
-      const text = h.toLowerCase();
+      const text = (typeof h === 'object' ? h.text : h || '').toLowerCase();
       if (text.includes('code') || text.includes('subject id') || text.includes('course id')) {
         parsedCodeIdx = idx;
       } else if (text.includes('title') || text.includes('name') || text.includes('subject')) {
@@ -323,24 +336,48 @@ function extractGradesFromHTML(html, semesterNo, creditsMap = {}) {
   for (const row of tableDataRows) {
     if (row.length <= Math.max(codeIdx, titleIdx, gradeIdx)) continue;
     
-    const code = (row[codeIdx] || '').trim();
-    const title = row[titleIdx];
-    const grade = row[gradeIdx];
-    
-    let status = 'PASS';
-    const gradeClean = grade ? grade.trim().toUpperCase() : 'U';
-    if (statusIdx !== -1 && statusIdx < row.length) {
-      status = row[statusIdx].trim().toUpperCase();
-    } else if (gradeClean === 'RA' || gradeClean === 'U' || gradeClean === 'W' || gradeClean === 'SA' || gradeClean === 'AB' || gradeClean === 'I') {
-      status = 'RA';
-    }
+    const codeCell = row[codeIdx];
+    const titleCell = row[titleIdx];
+    const gradeCell = row[gradeIdx];
+
+    const code = (typeof codeCell === 'object' ? codeCell.text : codeCell || '').trim();
+    const title = typeof titleCell === 'object' ? titleCell.text : titleCell;
+    const gradeText = typeof gradeCell === 'object' ? gradeCell.text : gradeCell;
+    const isNotPublished = typeof gradeCell === 'object' ? gradeCell.isNotPublished : false;
+    const isWithheld = typeof gradeCell === 'object' ? gradeCell.isWithheld : false;
 
     if (!code || code.length < 3) continue;
+
+    let grade = gradeText ? gradeText.trim().toUpperCase() : '';
+    let status = 'PASS';
+    let gradePoints = 0;
+
+    // Check published status
+    if (isNotPublished || grade === '' || grade === '-' || grade === 'NP') {
+      status = 'NOT_PUBLISHED';
+      grade = 'NP';
+      gradePoints = 0;
+    } else if (isWithheld || grade === 'W') {
+      status = 'W';
+      grade = 'W';
+      gradePoints = 0;
+    } else {
+      gradePoints = getGradePoints(grade);
+      const gradeClean = grade;
+      if (statusIdx !== -1 && statusIdx < row.length) {
+        const statusCell = row[statusIdx];
+        status = (typeof statusCell === 'object' ? statusCell.text : statusCell || 'PASS').trim().toUpperCase();
+      } else if (gradeClean === 'RA' || gradeClean === 'U' || gradeClean === 'SA' || gradeClean === 'AB' || gradeClean === 'I') {
+        status = 'RA';
+      }
+    }
 
     // Resolve credits: check table first, then lookup from the credits map, fallback to 3
     let credits = 3;
     if (creditsIdx !== -1 && creditsIdx < row.length) {
-      const parsed = parseInt(row[creditsIdx]);
+      const creditsCell = row[creditsIdx];
+      const creditsText = typeof creditsCell === 'object' ? creditsCell.text : creditsCell;
+      const parsed = parseInt(creditsText);
       if (!isNaN(parsed)) {
         credits = parsed;
       } else if (creditsMap[code]) {
@@ -355,9 +392,9 @@ function extractGradesFromHTML(html, semesterNo, creditsMap = {}) {
       courseCode: code,
       courseTitle: title ? title.trim() : 'Unknown Course',
       credits,
-      grade: grade ? grade.trim().toUpperCase() : 'U',
-      gradePoints: getGradePoints(grade || 'U'),
-      status: status ? status.trim().toUpperCase() : 'PASS'
+      grade,
+      gradePoints,
+      status
     });
   }
 
@@ -624,7 +661,7 @@ export async function POST(req) {
           totalCredits += g.credits;
         });
 
-        const gpa = totalCredits > 0 ? parseFloat((totalPoints / totalCredits).toFixed(3)) : 0.0;
+        const gpa = totalCredits > 0 ? parseFloat((totalPoints / totalCredits).toFixed(2)) : 0.0;
 
         await tx.semesterSummary.create({
           data: {

@@ -128,30 +128,43 @@ export async function GET(req) {
 
     // Format output with computed CGPA
     const formattedStudents = students.map(student => {
-      let totalPoints = 0;
-      let totalCredits = 0;
       let activeBacklogs = 0;
 
       const uniqueGrades = getLatestUniqueGrades(student.grades);
+      const publishedGrades = uniqueGrades.filter(g => isPublishedGrade(g));
+
+      const gradesBySem = {};
+      publishedGrades.forEach(g => {
+        if (!gradesBySem[g.semesterNo]) {
+          gradesBySem[g.semesterNo] = [];
+        }
+        gradesBySem[g.semesterNo].push(g);
+      });
+
+      const semesterGpas = [];
+      let totalCredits = 0;
+
+      Object.keys(gradesBySem).forEach(semNo => {
+        const semGrades = gradesBySem[semNo];
+        const passedSemGrades = semGrades.filter(g => g.status === 'PASS' || g.gradePoints > 0);
+        const semPoints = passedSemGrades.reduce((acc, curr) => acc + (curr.credits * curr.gradePoints), 0);
+        const semCredits = passedSemGrades.reduce((acc, curr) => acc + curr.credits, 0);
+        if (semCredits > 0) {
+          const semGpa = parseFloat((semPoints / semCredits).toFixed(2));
+          semesterGpas.push(semGpa);
+          totalCredits += semCredits;
+        }
+      });
 
       uniqueGrades.forEach(g => {
-        if (!isPublishedGrade(g)) {
-          return;
-        }
-
-        // Only include passed courses in the CGPA calculation
-        const isPass = g.status === 'PASS' || g.gradePoints > 0;
-        if (isPass) {
-          totalPoints += g.credits * g.gradePoints;
-          totalCredits += g.credits;
-        }
-        
-        if (isArrearGrade(g)) {
+        if (isPublishedGrade(g) && isArrearGrade(g)) {
           activeBacklogs++;
         }
       });
 
-      const cgpa = totalCredits > 0 ? parseFloat((totalPoints / totalCredits).toFixed(3)) : 0.0;
+      const cgpa = semesterGpas.length > 0 
+        ? parseFloat((semesterGpas.reduce((acc, val) => acc + val, 0) / semesterGpas.length).toFixed(2)) 
+        : 0.0;
 
       return {
         rollNumber: student.rollNumber,
