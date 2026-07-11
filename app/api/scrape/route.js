@@ -515,6 +515,12 @@ export async function POST(req) {
       });
 
       const optHtml = optRes.body.toString('utf-8');
+
+      console.log(`=== SESSION MARK FETCH DEBUG [${opt.text}] ===`);
+      console.log("Status Code:", optRes.statusCode);
+      console.log("Response Headers:", JSON.stringify(optRes.headers, null, 2));
+      console.log("HTML Snippet (1500 chars):", optHtml.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/\s+/g, ' ').substring(0, 1500));
+      console.log("==================================================");
       
       // Determine semester number from page
       let semesterNo = extractSemesterNo(optHtml);
