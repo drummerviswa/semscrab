@@ -275,6 +275,26 @@ export async function POST(req) {
       }
     }
 
+    // Handle logout_all_machine redirect (meaning they are already logged in on another machine)
+    const redirectUrl = loginRes.headers['location'];
+    if (redirectUrl && redirectUrl.includes('logout_all_machine')) {
+      console.log(`HTTP Scraper: Redirected to logout_all_machine. Fetching to terminate other sessions...`);
+      const logoutAllRes = await httpsGet('https://acoe.annauniv.edu/sems/login/logout_all_machine', {
+        'Cookie': `ci_session=${activeCookie}`,
+        'Referer': 'https://acoe.annauniv.edu/sems/login/student'
+      });
+      
+      const logoutCookies = logoutAllRes.headers['set-cookie'];
+      if (logoutCookies && logoutCookies.length > 0) {
+        const cookieStr = Array.isArray(logoutCookies) ? logoutCookies[0] : logoutCookies;
+        const match = cookieStr.match(/ci_session=([^;]+)/);
+        if (match) {
+          activeCookie = match[1];
+          console.log(`HTTP Scraper: Updated session cookie after logout_all_machine: ${activeCookie}`);
+        }
+      }
+    }
+
     // 2. Fetch marks page to verify login was successful
     console.log(`HTTP Scraper: Loading SEMS marks page...`);
     const marksRes = await httpsGet('https://acoe.annauniv.edu/sems/student/mark', {
