@@ -6,6 +6,10 @@ export const metadata = {
   keywords: ["Anna University", "SEMS", "GPA Calculator", "CGPA Calculator", "CEG", "MIT", "ACTECH", "Anna Univ SEMS Scraper", "Placement Analyzer"],
   authors: [{ name: "Viswanathan P" }],
   metadataBase: new URL("https://semscrab.vercel.app"),
+  icons: {
+    icon: "/gr.png",
+    apple: "/gr.png",
+  },
   openGraph: {
     title: "SEMS GPA & Placement Analyzer | Anna University",
     description: "Automated GPA/CGPA calculations, active backlog tracking, what-if GPA simulators, and class placement eligibility dashboards for Anna University students and PRs.",

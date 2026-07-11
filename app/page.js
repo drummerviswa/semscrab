@@ -1113,9 +1113,14 @@ export default function Home() {
     
     const points = trendSemesters.map((sem, i) => {
       const x = paddingLeft + (i * (usableWidth / Math.max(1, trendSemesters.length - 1)));
+      const semGrades = grades.filter(g => g.semesterNo === sem.semesterNo);
+      const passedSemGrades = semGrades.filter(g => g.status === "PASS" || g.gradePoints > 0);
+      const semPoints = passedSemGrades.reduce((acc, curr) => acc + (curr.credits * curr.gradePoints), 0);
+      const semCredits = passedSemGrades.reduce((acc, curr) => acc + curr.credits, 0);
+      const semGpa = semCredits > 0 ? parseFloat((semPoints / semCredits).toFixed(2)) : 0.0;
       // GPA mapping: 10 is at y=0, 0 is at y=usableHeight
-      const y = paddingTop + (usableHeight - (sem.gpa * (usableHeight / 10)));
-      return { x, y, ...sem };
+      const y = paddingTop + (usableHeight - (semGpa * (usableHeight / 10)));
+      return { x, y, semesterNo: sem.semesterNo, gpa: semGpa.toFixed(2) };
     });
     
     let pathD = "";
@@ -1181,8 +1186,9 @@ export default function Home() {
   if (loading) {
     return (
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", backgroundColor: "#06070d" }}>
-        <div style={{ textAlign: "center" }}>
-          <h1 className="brand-title" style={{ fontSize: "2rem", marginBottom: "1rem" }}>SEMS ANALYZER</h1>
+        <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem" }}>
+          <img src="/gr.png" alt="Logo" style={{ width: "64px", height: "64px", borderRadius: "12px", marginBottom: "0.5rem", boxShadow: "0 4px 20px rgba(6, 182, 212, 0.2)" }} />
+          <h1 className="brand-title" style={{ fontSize: "2rem", margin: 0 }}>SEMS ANALYZER</h1>
           <div style={{ color: "var(--text-secondary)", fontSize: "0.875rem" }}>Securing connection and loading session...</div>
         </div>
       </div>
@@ -1193,9 +1199,12 @@ export default function Home() {
   if (!user) {
     return (
       <div className="app-container" style={{ justifyContent: "center" }}>
-        <div className="brand-section" style={{ alignItems: "center", marginBottom: "1rem" }}>
-          <h1 className="brand-title" style={{ fontSize: "2.5rem" }}>SEMS ANALYZER</h1>
-          <div className="brand-subtitle">Anna University (CEG / MIT) Placement & GPA Suite</div>
+        <div className="brand-section" style={{ alignItems: "center", marginBottom: "1.5rem", gap: "0.75rem", display: "flex", flexDirection: "column" }}>
+          <img src="/gr.png" alt="Logo" style={{ width: "80px", height: "80px", borderRadius: "16px", boxShadow: "0 8px 30px rgba(6, 182, 212, 0.2)" }} />
+          <div style={{ textAlign: "center" }}>
+            <h1 className="brand-title" style={{ fontSize: "2.5rem", margin: 0 }}>SEMS ANALYZER</h1>
+            <div className="brand-subtitle" style={{ marginTop: "0.25rem" }}>Anna University (CEG / MIT) Placement & GPA Suite</div>
+          </div>
         </div>
         
         <div className="glass-card auth-wrapper">
@@ -1374,9 +1383,12 @@ export default function Home() {
     <div className="app-container">
       {/* Navigation bar */}
       <header className="app-header glass-card">
-        <div className="brand-section">
-          <h1 className="brand-title">SEMS ANALYZER</h1>
-          <div className="brand-subtitle">{user.name} ({user.rollNumber})  {user.branch}</div>
+        <div className="brand-section" style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <img src="/gr.png" alt="Logo" style={{ width: "36px", height: "36px", borderRadius: "8px", boxShadow: "0 2px 10px rgba(6, 182, 212, 0.15)" }} />
+          <div>
+            <h1 className="brand-title" style={{ margin: 0 }}>SEMS ANALYZER</h1>
+            <div className="brand-subtitle">{user.name} ({user.rollNumber})  {user.branch}</div>
+          </div>
         </div>
         
         <div className="nav-section">
@@ -1571,6 +1583,14 @@ export default function Home() {
                       const semGrades = grades.filter(g => g.semesterNo === sem.semesterNo);
                       const isOpen = openSemester === sem.semesterNo;
                       
+                      // Calculate GPA dynamically excluding failed/arrear courses
+                      const publishedSemGrades = semGrades.filter(g => g.status !== "NOT_PUBLISHED");
+                      const passedSemGrades = publishedSemGrades.filter(g => g.status === "PASS" || g.gradePoints > 0);
+                      const semPoints = passedSemGrades.reduce((acc, curr) => acc + (curr.credits * curr.gradePoints), 0);
+                      const semCredits = passedSemGrades.reduce((acc, curr) => acc + curr.credits, 0);
+                      const semGpa = semCredits > 0 ? parseFloat((semPoints / semCredits).toFixed(2)) : 0.0;
+                      const displayGpa = publishedSemGrades.length > 0 ? semGpa.toFixed(2) : "Pending";
+                      
                       return (
                         <div 
                           key={sem.semesterNo} 
@@ -1588,7 +1608,7 @@ export default function Home() {
                             </div>
                             <div className="header-right">
                               <span style={{ color: "var(--secondary)", fontWeight: "800" }}>
-                                GPA: {semGrades.some(g => g.status !== "NOT_PUBLISHED") ? sem.gpa : "Pending"}
+                                GPA: {displayGpa}
                               </span>
                               <span className="chevron"></span>
                             </div>
@@ -1749,10 +1769,11 @@ export default function Home() {
                             </select>
 
                             <button 
-                              style={{ background: "transparent", border: "none", color: "var(--danger)", cursor: "pointer", fontWeight: "800", fontSize: "1rem", padding: "0 0.5rem" }}
+                              style={{ background: "transparent", border: "none", color: "var(--danger)", cursor: "pointer", fontWeight: "800", fontSize: "1.2rem", padding: "0 0.5rem" }}
                               onClick={() => removeSimCourse(c.id)}
+                              title="Delete Subject"
                             >
-                              
+                              ✕
                             </button>
                           </div>
                         ))}
@@ -2003,14 +2024,21 @@ export default function Home() {
                     // Group grades by semester
                     [1,2,3,4,5,6,7,8,9,10].map(semNo => {
                       const semGrades = selectedStudent.grades.filter(g => g.semesterNo === semNo);
-                      const summary = selectedStudent.semesters.find(s => s.semesterNo === semNo);
                       if (semGrades.length === 0) return null;
+                      
+                      // Calculate GPA dynamically excluding failed/arrear courses
+                      const publishedSemGrades = semGrades.filter(g => g.status !== "NOT_PUBLISHED");
+                      const passedSemGrades = publishedSemGrades.filter(g => g.status === "PASS" || g.gradePoints > 0);
+                      const semPoints = passedSemGrades.reduce((acc, curr) => acc + (curr.credits * curr.gradePoints), 0);
+                      const semCredits = passedSemGrades.reduce((acc, curr) => acc + curr.credits, 0);
+                      const semGpa = semCredits > 0 ? parseFloat((semPoints / semCredits).toFixed(2)) : 0.0;
+                      const displayGpa = publishedSemGrades.length > 0 ? semGpa.toFixed(2) : "Pending";
                       
                       return (
                         <div key={semNo} style={{ border: "1px solid var(--border-color)", borderRadius: "8px", padding: "1rem", background: "rgba(255,255,255,0.01)" }}>
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem", fontWeight: "700", fontSize: "0.875rem" }}>
                             <span>Semester {semNo}</span>
-                            <span style={{ color: "var(--secondary)" }}>GPA: {summary ? summary.gpa : "0.00"}</span>
+                            <span style={{ color: "var(--secondary)" }}>GPA: {displayGpa}</span>
                           </div>
                           
                           <table className="data-table" style={{ minWidth: "initial" }}>
