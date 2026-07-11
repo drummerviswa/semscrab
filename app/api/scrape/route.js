@@ -63,6 +63,26 @@ function httpsPost(url, bodyString, headers = {}) {
   });
 }
 
+function extractHiddenInputs(html) {
+  const inputs = [];
+  const inputRegex = /<input([^>]+)>/gi;
+  let match;
+  while ((match = inputRegex.exec(html)) !== null) {
+    const attrsStr = match[1];
+    if (attrsStr.toLowerCase().includes('type="hidden"') || attrsStr.toLowerCase().includes("type='hidden'")) {
+      const nameMatch = attrsStr.match(/name=["']([^"']+)["']/i);
+      const valueMatch = attrsStr.match(/value=["']([^"']*)["']/i);
+      if (nameMatch) {
+        inputs.push({
+          name: nameMatch[1],
+          value: valueMatch ? valueMatch[1] : ''
+        });
+      }
+    }
+  }
+  return inputs;
+}
+
 async function httpsGetFollowRedirect(url, initialCookie) {
   let currentUrl = url;
   let activeCookie = initialCookie;
@@ -88,6 +108,62 @@ async function httpsGetFollowRedirect(url, initialCookie) {
 
     const statusCode = res.statusCode;
     const location = res.headers['location'];
+    const bodyText = res.body.toString('utf-8');
+
+    // Check if the response contains the logout confirmation page form
+    if (bodyText.includes('logout_all_machine') && bodyText.includes('<form')) {
+      console.log(`HTTP Scraper: Found logout confirmation form. Simulating form submission...`);
+      
+      const actionMatch = bodyText.match(/<form[^>]+action="([^"]+)"/i);
+      let actionUrl = actionMatch ? actionMatch[1] : '/sems/login/logout_all_machine';
+      if (actionUrl.startsWith('/')) {
+        actionUrl = `https://acoe.annauniv.edu${actionUrl}`;
+      }
+      
+      const hiddenInputs = extractHiddenInputs(bodyText);
+      const formParams = new URLSearchParams();
+      hiddenInputs.forEach(input => {
+        formParams.append(input.name, input.value);
+      });
+      // Add submit button value
+      formParams.append('submit', 'Login');
+
+      console.log(`HTTP Scraper: Submitting POST to ${actionUrl} with parameters: ${formParams.toString()}`);
+      
+      const postRes = await httpsPost(actionUrl, formParams.toString(), {
+        'Cookie': `ci_session=${activeCookie}`,
+        'Referer': currentUrl,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      });
+      
+      const postCookies = postRes.headers['set-cookie'];
+      if (postCookies && postCookies.length > 0) {
+        const cookieStr = Array.isArray(postCookies) ? postCookies[0] : postCookies;
+        const match = cookieStr.match(/ci_session=([^;]+)/);
+        if (match) {
+          activeCookie = match[1];
+          console.log(`HTTP Scraper: Cookie updated after form submission: ${activeCookie}`);
+        }
+      }
+      
+      const postLocation = postRes.headers['location'];
+      if (postRes.statusCode >= 300 && postRes.statusCode < 400 && postLocation) {
+        if (postLocation.startsWith('/')) {
+          currentUrl = `https://acoe.annauniv.edu${postLocation}`;
+        } else {
+          currentUrl = postLocation;
+        }
+        redirectCount++;
+        continue;
+      } else {
+        return {
+          statusCode: postRes.statusCode,
+          headers: postRes.headers,
+          body: postRes.body,
+          cookie: activeCookie
+        };
+      }
+    }
 
     if ((statusCode >= 300 && statusCode < 400) && location) {
       if (location.startsWith('/')) {
