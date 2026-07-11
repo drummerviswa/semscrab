@@ -61,6 +61,51 @@ function httpsPost(url, bodyString, headers = {}) {
   });
 }
 
+async function httpsGetFollowRedirect(url, initialCookie) {
+  let currentUrl = url;
+  let activeCookie = initialCookie;
+  let redirectCount = 0;
+  const maxRedirects = 5;
+
+  while (redirectCount < maxRedirects) {
+    console.log(`HTTP Scraper: Fetching (Redirect ${redirectCount}): ${currentUrl}`);
+    const res = await httpsGet(currentUrl, {
+      'Cookie': `ci_session=${activeCookie}`,
+      'Referer': 'https://acoe.annauniv.edu/sems/login/student'
+    });
+
+    const newCookies = res.headers['set-cookie'];
+    if (newCookies && newCookies.length > 0) {
+      const cookieStr = Array.isArray(newCookies) ? newCookies[0] : newCookies;
+      const match = cookieStr.match(/ci_session=([^;]+)/);
+      if (match) {
+        activeCookie = match[1];
+        console.log(`HTTP Scraper: Cookie updated to: ${activeCookie}`);
+      }
+    }
+
+    const statusCode = res.statusCode;
+    const location = res.headers['location'];
+
+    if ((statusCode >= 300 && statusCode < 400) && location) {
+      if (location.startsWith('/')) {
+        currentUrl = `https://acoe.annauniv.edu${location}`;
+      } else {
+        currentUrl = location;
+      }
+      redirectCount++;
+    } else {
+      return {
+        statusCode,
+        headers: res.headers,
+        body: res.body,
+        cookie: activeCookie
+      };
+    }
+  }
+  throw new Error('Too many redirects');
+}
+
 function getGradePoints(grade) {
   const g = (grade || '').trim().toUpperCase();
   switch (g) {
@@ -275,23 +320,18 @@ export async function POST(req) {
       }
     }
 
-    // Handle logout_all_machine redirect (meaning they are already logged in on another machine)
-    const redirectUrl = loginRes.headers['location'];
-    if (redirectUrl && redirectUrl.includes('logout_all_machine')) {
-      console.log(`HTTP Scraper: Redirected to logout_all_machine. Fetching to terminate other sessions...`);
-      const logoutAllRes = await httpsGet('https://acoe.annauniv.edu/sems/login/logout_all_machine', {
-        'Cookie': `ci_session=${activeCookie}`,
-        'Referer': 'https://acoe.annauniv.edu/sems/login/student'
-      });
-      
-      const logoutCookies = logoutAllRes.headers['set-cookie'];
-      if (logoutCookies && logoutCookies.length > 0) {
-        const cookieStr = Array.isArray(logoutCookies) ? logoutCookies[0] : logoutCookies;
-        const match = cookieStr.match(/ci_session=([^;]+)/);
-        if (match) {
-          activeCookie = match[1];
-          console.log(`HTTP Scraper: Updated session cookie after logout_all_machine: ${activeCookie}`);
-        }
+    // Follow redirect chains if login resulted in a redirect (handles logout_all_machine, etc.)
+    let redirectUrl = loginRes.headers['location'];
+    if (loginRes.statusCode >= 300 && loginRes.statusCode < 400 && redirectUrl) {
+      if (redirectUrl.startsWith('/')) {
+        redirectUrl = `https://acoe.annauniv.edu${redirectUrl}`;
+      }
+      console.log(`HTTP Scraper: Redirecting to: ${redirectUrl}`);
+      try {
+        const followRes = await httpsGetFollowRedirect(redirectUrl, activeCookie);
+        activeCookie = followRes.cookie;
+      } catch (err) {
+        console.error('HTTP Scraper: Redirect following error:', err);
       }
     }
 
