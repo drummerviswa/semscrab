@@ -583,6 +583,7 @@ export async function POST(req) {
     }
 
     const allSemesterGrades = [];
+    let scrapedStudentInfo = null;
 
     // 4. Loop through options and fetch marks for each session
     for (let i = 0; i < sortedOptions.length; i++) {
@@ -603,6 +604,9 @@ export async function POST(req) {
       try {
         const json = JSON.parse(optText);
         if (json && json.result) {
+          if (json.student && !scrapedStudentInfo) {
+            scrapedStudentInfo = json.student;
+          }
           // Determine semester number from json.student.sem or fallback
           let semesterNo = json.student && json.student.sem ? parseInt(json.student.sem) : null;
           if (!semesterNo) {
@@ -640,6 +644,39 @@ export async function POST(req) {
 
     // 5. Update database inside a single transaction
     await prisma.$transaction(async (tx) => {
+      // Ensure target student exists in the database
+      const userExists = await tx.user.findUnique({ where: { rollNumber: targetRollNumber } });
+      if (!userExists) {
+        let studentName = `Student ${targetRollNumber}`;
+        let studentBranch = "Information Technology";
+        if (scrapedStudentInfo) {
+          if (scrapedStudentInfo.name) studentName = scrapedStudentInfo.name.trim();
+          if (scrapedStudentInfo.branch) studentBranch = scrapedStudentInfo.branch.trim();
+        }
+
+        const passwordHash = crypto.randomBytes(32).toString('hex');
+        const batch = (() => {
+          const year = targetRollNumber.substring(0, 4);
+          if (/^20\d{2}$/.test(year)) {
+            const start = parseInt(year);
+            return `${start}-${start + 5}`;
+          }
+          return "2022-2027";
+        })();
+
+        await tx.user.create({
+          data: {
+            rollNumber: targetRollNumber,
+            name: studentName,
+            passwordHash,
+            role: "STUDENT",
+            branch: studentBranch,
+            batch,
+            shareWithPR: true
+          }
+        });
+      }
+
       // Delete old grades and summaries for this student
       await tx.courseGrade.deleteMany({ where: { userRollNumber: targetRollNumber } });
       await tx.semesterSummary.deleteMany({ where: { userRollNumber: targetRollNumber } });
