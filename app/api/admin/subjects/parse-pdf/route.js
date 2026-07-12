@@ -15,7 +15,7 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const scriptPath = 'C:\\Users\\drumm\\.gemini\\antigravity\\brain\\206b08bb-9ad9-401d-933e-5859334a48f3\\scratch\\parse_syllabus_robust.py';
+    const scriptPath = path.join(process.cwd(), 'scripts', 'parse_syllabus_robust.py');
     
     console.log(`Executing python parser at: ${scriptPath}`);
     try {
