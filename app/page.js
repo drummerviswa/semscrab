@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 
 // SVG Icon Components - encoding-safe, render perfectly everywhere
 const Icon = ({ d, size = 16, color = "currentColor", strokeWidth = 2 }) => (
@@ -72,8 +72,15 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [backlogFilter, setBacklogFilter] = useState("all"); // "all", "backlog", "clear"
   const [selectedStudent, setSelectedStudent] = useState(null); // Drawer Student details
-  const [selectedPRRolls, setSelectedPRRolls] = useState([]);
   const [selectedPRSemesters, setSelectedPRSemesters] = useState([]);
+  const [selectedPRRolls, setSelectedPRRolls] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showScrapePassword, setShowScrapePassword] = useState(false);
+  const [branchFilter, setBranchFilter] = useState("All");
+  const [batchFilter, setBatchFilter] = useState("All");
+  const [arrearFilter, setArrearFilter] = useState("All");
+  const [sortField, setSortField] = useState("cgpa");
+  const [sortDirection, setSortDirection] = useState("desc");
   
   // Admin Dashboard Data
   const [adminUsers, setAdminUsers] = useState([]);
@@ -1075,13 +1082,66 @@ export default function Home() {
     return simCredits > 0 ? parseFloat((simPoints / simCredits).toFixed(3)) : 0.0;
   })();
 
+  // Dynamic lists of unique branches and batches for dropdowns
+  const uniqueBranches = useMemo(() => {
+    return ["All", ...new Set(prStudents.map(s => s.branch).filter(Boolean))].sort();
+  }, [prStudents]);
+
+  const uniqueBatches = useMemo(() => {
+    return ["All", ...new Set(prStudents.map(s => s.batch).filter(Boolean))].sort();
+  }, [prStudents]);
+
   // Filtered students for PR Leaderboard
-  const filteredStudents = prStudents.filter(s => {
-    // Role filter
-    if (backlogFilter === "backlog") return s.activeBacklogs > 0;
-    if (backlogFilter === "clear") return s.activeBacklogs === 0;
-    return true;
-  });
+  const filteredStudents = useMemo(() => {
+    return prStudents.filter(s => {
+      // Backlog status quick tabs filter
+      if (backlogFilter === "backlog" && s.activeBacklogs === 0) return false;
+      if (backlogFilter === "clear" && s.activeBacklogs > 0) return false;
+
+      // Branch filter dropdown
+      if (branchFilter !== "All" && s.branch !== branchFilter) return false;
+      
+      // Batch filter dropdown
+      if (batchFilter !== "All" && s.batch !== batchFilter) return false;
+      
+      // Arrear status dropdown filter
+      if (arrearFilter === "Arrears" && s.activeBacklogs === 0) return false;
+      if (arrearFilter === "Clear" && s.activeBacklogs > 0) return false;
+
+      return true;
+    });
+  }, [prStudents, backlogFilter, branchFilter, batchFilter, arrearFilter]);
+
+  // Handle Sort fields
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDirection("desc"); // Default to desc (higher values first)
+    }
+  };
+
+  // Sorted and filtered students list
+  const sortedStudents = useMemo(() => {
+    return [...filteredStudents].sort((a, b) => {
+      let valA = a[sortField];
+      let valB = b[sortField];
+
+      if (valA === undefined || valA === null) valA = "";
+      if (valB === undefined || valB === null) valB = "";
+
+      if (typeof valA === "string") {
+        return sortDirection === "asc"
+          ? valA.localeCompare(valB)
+          : valB.localeCompare(valA);
+      } else {
+        return sortDirection === "asc"
+          ? valA - valB
+          : valB - valA;
+      }
+    });
+  }, [filteredStudents, sortField, sortDirection]);
 
   const prPublishedStudents = prStudents.filter(s => s.totalCredits > 0);
   const prAverageCgpa = prPublishedStudents.length > 0
@@ -1336,14 +1396,37 @@ export default function Home() {
             
             <div className="form-group">
               <label className="form-label">Portal password</label>
-              <input 
-                type="password" 
-                required 
-                className="form-input" 
-                placeholder="" 
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
+              <div style={{ position: "relative" }}>
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  required 
+                  className="form-input" 
+                  style={{ paddingRight: "3rem" }}
+                  placeholder="" 
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: "absolute",
+                    right: "0.75rem",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    background: "none",
+                    border: "none",
+                    color: "var(--text-secondary)",
+                    cursor: "pointer",
+                    fontSize: "0.85rem",
+                    fontWeight: "600",
+                    userSelect: "none",
+                    padding: "0.25rem"
+                  }}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
             </div>
             
             <button
@@ -1654,6 +1737,61 @@ export default function Home() {
                   </div>
                 )}
               </div>
+
+              {/* Arrears Profile & History Card */}
+              {hasGrades && (() => {
+                const { activeArrears, clearedArrears } = getArrearsHistory(grades);
+                if (activeArrears.length === 0 && clearedArrears.length === 0) return null;
+                return (
+                  <div className="glass-card" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                    <div className="section-title" style={{ color: "var(--danger)", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                      ⚠️ Arrears Profile & History
+                    </div>
+                    
+                    {activeArrears.length > 0 && (
+                      <div>
+                        <div style={{ fontWeight: "700", color: "var(--danger)", fontSize: "0.9rem", marginBottom: "0.5rem" }}>
+                          Active Standing Arrears ({activeArrears.length})
+                        </div>
+                        <div className="semester-list" style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                          {activeArrears.map(a => (
+                            <div key={a.courseCode} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.75rem 1rem", border: "1px solid var(--border-color)", borderRadius: "6px", background: "rgba(239, 68, 68, 0.02)" }}>
+                              <div>
+                                <span style={{ fontWeight: "700", fontFamily: "monospace", color: "var(--danger)", marginRight: "0.5rem" }}>{a.courseCode}</span>
+                                <span style={{ fontSize: "0.9rem" }}>{a.courseTitle}</span>
+                              </div>
+                              <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
+                                Failed in Sem {a.failedSem} {a.attemptsCount > 1 && `(attempts: ${a.attemptsCount})`}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {clearedArrears.length > 0 && (
+                      <div style={{ marginTop: activeArrears.length > 0 ? "0.5rem" : 0 }}>
+                        <div style={{ fontWeight: "700", color: "var(--success)", fontSize: "0.9rem", marginBottom: "0.5rem" }}>
+                          Cleared Historical Arrears ({clearedArrears.length})
+                        </div>
+                        <div className="semester-list" style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                          {clearedArrears.map(a => (
+                            <div key={a.courseCode} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.75rem 1rem", border: "1px solid var(--border-color)", borderRadius: "6px", background: "rgba(16, 185, 129, 0.02)" }}>
+                              <div>
+                                <span style={{ fontWeight: "700", fontFamily: "monospace", color: "var(--success)", marginRight: "0.5rem" }}>{a.courseCode}</span>
+                                <span style={{ fontSize: "0.9rem", color: "var(--text-secondary)" }}>{a.courseTitle}</span>
+                              </div>
+                              <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
+                                Failed: Sem {a.failedSem} ➔ Cleared: Sem {a.clearedSem} ({a.attemptsCount} attempts)
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Right side charts & projections */}
@@ -1839,42 +1977,60 @@ export default function Home() {
           </div>
 
           {/* Search and Filters */}
-          <div className="search-controls">
-            <div className="search-input-wrapper">
-              <input 
-                type="text" 
-                className="form-input search-input" 
-                placeholder="Search student by name or roll number (e.g., Saby)..." 
-                value={searchQuery}
-                onChange={e => {
-                  setSearchQuery(e.target.value);
-                  fetchPRStudents(e.target.value);
-                }}
-              />
-            </div>
-            
-            <div className="role-selector-tabs" style={{ padding: "0.15rem" }}>
-              <button 
-                className={`tab-btn ${backlogFilter === "all" ? "active" : ""}`}
-                onClick={() => setBacklogFilter("all")}
-                style={{ fontSize: "0.75rem", padding: "0.4rem 0.8rem" }}
-              >
-                All ({prStudents.length})
-              </button>
-              <button 
-                className={`tab-btn ${backlogFilter === "clear" ? "active" : ""}`}
-                onClick={() => setBacklogFilter("clear")}
-                style={{ fontSize: "0.75rem", padding: "0.4rem 0.8rem" }}
-              >
-                No Arrears ({prStudents.filter(s => s.activeBacklogs === 0).length})
-              </button>
-              <button 
-                className={`tab-btn ${backlogFilter === "backlog" ? "active" : ""}`}
-                onClick={() => setBacklogFilter("backlog")}
-                style={{ fontSize: "0.75rem", padding: "0.4rem 0.8rem" }}
-              >
-                Standing Arrears ({prStudents.filter(s => s.activeBacklogs > 0).length})
-              </button>
+          <div className="search-controls" style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "1.5rem" }}>
+            <div style={{ display: "flex", gap: "0.75rem", width: "100%", flexWrap: "wrap", alignItems: "center" }}>
+              <div className="search-input-wrapper" style={{ flex: 2, minWidth: "260px" }}>
+                <input 
+                  type="text" 
+                  className="form-input search-input" 
+                  placeholder="Search name, roll number, or branch..." 
+                  value={searchQuery}
+                  onChange={e => {
+                    setSearchQuery(e.target.value);
+                    fetchPRStudents(e.target.value);
+                  }}
+                />
+              </div>
+              
+              <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", alignItems: "center" }}>
+                {/* Branch filter */}
+                <select 
+                  className="form-input" 
+                  style={{ height: "42px", fontSize: "0.85rem", width: "160px" }}
+                  value={branchFilter}
+                  onChange={e => setBranchFilter(e.target.value)}
+                >
+                  <option value="All">All Branches</option>
+                  {uniqueBranches.map(b => (
+                    <option key={b} value={b}>{b}</option>
+                  ))}
+                </select>
+
+                {/* Batch filter */}
+                <select 
+                  className="form-input" 
+                  style={{ height: "42px", fontSize: "0.85rem", width: "120px" }}
+                  value={batchFilter}
+                  onChange={e => setBatchFilter(e.target.value)}
+                >
+                  <option value="All">All Batches</option>
+                  {uniqueBatches.map(b => (
+                    <option key={b} value={b}>{b}</option>
+                  ))}
+                </select>
+
+                {/* Arrear Status filter */}
+                <select 
+                  className="form-input" 
+                  style={{ height: "42px", fontSize: "0.85rem", width: "160px" }}
+                  value={arrearFilter}
+                  onChange={e => setArrearFilter(e.target.value)}
+                >
+                  <option value="All">All Arrears Status</option>
+                  <option value="Clear">No Standing Arrears</option>
+                  <option value="Arrears">Standing Arrears</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -1935,69 +2091,120 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Leaderboard List */}
+          {/* Leaderboard List / Interactive Table */}
           {filteredStudents.length === 0 ? (
             <div style={{ textAlign: "center", padding: "3rem", color: "var(--text-secondary)" }}>
               No students found matching filters. Make sure students sign up and enable the share toggle in their dashboards!
             </div>
           ) : (
-            <div className="leaderboard-list">
-              <div className="leaderboard-item" style={{ background: "transparent", border: "none", cursor: "default", paddingBottom: 0, fontWeight: "600", color: "var(--text-secondary)", fontSize: "0.75rem" }}>
-                <div className="student-info">
-                  <span style={{ width: "24px" }}></span>
-                  <span className="rank-badge">Rank</span>
-                  <span>Student Details</span>
-                </div>
-                <div className="student-meta">
-                  <span style={{ width: "80px", textAlign: "right" }}>Total Credits</span>
-                  <span style={{ width: "80px", textAlign: "right" }}>Backlogs</span>
-                  <span style={{ width: "80px", textAlign: "right" }}>CGPA</span>
-                </div>
-              </div>
-              
-              {/* Sort by CGPA descending for ranking */}
-              {[...filteredStudents]
-                .sort((a, b) => b.cgpa - a.cgpa)
-                .map((student, index) => (
-                  <div 
-                    key={student.rollNumber} 
-                    className="leaderboard-item"
-                    onClick={() => setSelectedStudent(student)}
-                  >
-                    <div className="student-info">
-                      <input
+            <div className="glass-card" style={{ padding: "0.5rem", overflowX: "auto" }}>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th style={{ width: "40px", textAlign: "center" }}>
+                      <input 
                         type="checkbox"
-                        checked={selectedPRRolls.includes(student.rollNumber)}
-                        onChange={() => togglePRStudentSelection(student.rollNumber)}
-                        onClick={e => e.stopPropagation()}
-                        style={{ width: "18px", height: "18px", accentColor: "var(--primary)" }}
+                        checked={sortedStudents.length > 0 && sortedStudents.every(s => selectedPRRolls.includes(s.rollNumber))}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedPRRolls(sortedStudents.map(s => s.rollNumber));
+                          } else {
+                            setSelectedPRRolls([]);
+                          }
+                        }}
+                        style={{ width: "16px", height: "16px" }}
                       />
-                      <span className="rank-badge">{index + 1}</span>
-                      <div className="student-name-grp">
-                        <span className="student-name">{student.name}</span>
-                        <span className="student-roll">{student.rollNumber}</span>
-                      </div>
-                    </div>
+                    </th>
+                    <th style={{ width: "60px", textAlign: "center" }}>Rank</th>
+                    <th 
+                      className={`sortable ${sortField === "rollNumber" ? "active" : ""}`} 
+                      onClick={() => handleSort("rollNumber")}
+                    >
+                      Roll Number {sortField === "rollNumber" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
+                    </th>
+                    <th 
+                      className={`sortable ${sortField === "name" ? "active" : ""}`} 
+                      onClick={() => handleSort("name")}
+                    >
+                      Name {sortField === "name" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
+                    </th>
+                    <th 
+                      className={`sortable ${sortField === "branch" ? "active" : ""}`} 
+                      onClick={() => handleSort("branch")}
+                    >
+                      Branch {sortField === "branch" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
+                    </th>
+                    <th 
+                      className={`sortable ${sortField === "batch" ? "active" : ""}`} 
+                      onClick={() => handleSort("batch")}
+                    >
+                      Batch {sortField === "batch" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
+                    </th>
+                    <th 
+                      className={`sortable ${sortField === "totalCredits" ? "active" : ""}`} 
+                      onClick={() => handleSort("totalCredits")}
+                      style={{ textAlign: "right" }}
+                    >
+                      Credits {sortField === "totalCredits" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
+                    </th>
+                    <th 
+                      className={`sortable ${sortField === "activeBacklogs" ? "active" : ""}`} 
+                      onClick={() => handleSort("activeBacklogs")}
+                      style={{ textAlign: "right" }}
+                    >
+                      Arrears {sortField === "activeBacklogs" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
+                    </th>
+                    <th 
+                      className={`sortable ${sortField === "cgpa" ? "active" : ""}`} 
+                      onClick={() => handleSort("cgpa")}
+                      style={{ textAlign: "right" }}
+                    >
+                      CGPA {sortField === "cgpa" ? (sortDirection === "asc" ? "▲" : "▼") : ""}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sortedStudents.map((student) => {
+                    const cgpaSortedList = [...filteredStudents].sort((a, b) => b.cgpa - a.cgpa);
+                    const rank = cgpaSortedList.findIndex(s => s.rollNumber === student.rollNumber) + 1;
                     
-                    <div className="student-meta">
-                      <span className="badge-pill" style={{ width: "80px", display: "inline-block", textAlign: "center" }}>
-                        {student.totalCredits}
-                      </span>
-                      
-                      <span style={{ width: "80px", display: "inline-block", textAlign: "right" }}>
-                        {student.activeBacklogs > 0 ? (
-                          <span className="backlog-warn">{student.activeBacklogs} Arrears</span>
-                        ) : (
-                          <span style={{ color: "var(--success)", fontSize: "0.75rem", fontWeight: "700" }}>Clear</span>
-                        )}
-                      </span>
-                      
-                      <span className="student-cgpa-score" style={{ width: "80px", display: "inline-block", textAlign: "right" }}>
-                        {student.cgpa.toFixed(2)}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                    return (
+                      <tr 
+                        key={student.rollNumber} 
+                        className="interactive-row" 
+                        onClick={() => setSelectedStudent(student)}
+                      >
+                        <td onClick={e => e.stopPropagation()} style={{ textAlign: "center" }}>
+                          <input
+                            type="checkbox"
+                            checked={selectedPRRolls.includes(student.rollNumber)}
+                            onChange={() => togglePRStudentSelection(student.rollNumber)}
+                            style={{ width: "16px", height: "16px", accentColor: "var(--primary)" }}
+                          />
+                        </td>
+                        <td style={{ textAlign: "center", fontWeight: "700" }}>{rank}</td>
+                        <td style={{ fontFamily: "monospace", fontWeight: "700" }}>{student.rollNumber}</td>
+                        <td style={{ fontWeight: "700" }}>{student.name}</td>
+                        <td style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>{student.branch}</td>
+                        <td style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>{student.batch}</td>
+                        <td style={{ textAlign: "right" }}>
+                          <span className="badge-pill">{student.totalCredits}</span>
+                        </td>
+                        <td style={{ textAlign: "right", fontWeight: "700" }}>
+                          {student.activeBacklogs > 0 ? (
+                            <span className="backlog-warn">{student.activeBacklogs} Arrears</span>
+                          ) : (
+                            <span style={{ color: "var(--success)", fontSize: "0.75rem", fontWeight: "700" }}>Clear</span>
+                          )}
+                        </td>
+                        <td style={{ textAlign: "right", fontWeight: "800", color: "var(--secondary)" }}>
+                          {student.cgpa.toFixed(2)}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           )}
 
@@ -2015,7 +2222,46 @@ export default function Home() {
                   <button className="close-btn" onClick={() => setSelectedStudent(null)}></button>
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                 <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  {/* Arrears Profile & History section for Selected Student */}
+                  {selectedStudent.grades.length > 0 && (() => {
+                    const { activeArrears, clearedArrears } = getArrearsHistory(selectedStudent.grades);
+                    if (activeArrears.length === 0 && clearedArrears.length === 0) return null;
+                    return (
+                      <div className="glass-card" style={{ padding: "1rem", display: "flex", flexDirection: "column", gap: "0.75rem", border: "1px solid rgba(239, 68, 68, 0.2)" }}>
+                        <div style={{ fontWeight: "800", fontSize: "0.9rem", color: "var(--danger)", display: "flex", alignItems: "center", gap: "0.25rem" }}>
+                          ⚠️ Arrears Profile & History
+                        </div>
+                        
+                        {activeArrears.length > 0 && (
+                          <div>
+                            <div style={{ fontSize: "0.8rem", fontWeight: "700", color: "var(--danger)", marginBottom: "0.25rem" }}>Active Arrears ({activeArrears.length})</div>
+                            <ul style={{ margin: 0, paddingLeft: "1.2rem", fontSize: "0.8rem" }}>
+                              {activeArrears.map(a => (
+                                <li key={a.courseCode} style={{ color: "var(--text-primary)" }}>
+                                  <strong style={{ fontFamily: "monospace" }}>{a.courseCode}</strong> - {a.courseTitle} (failed in Sem {a.failedSem}{a.attemptsCount > 1 ? `, attempts: ${a.attemptsCount}` : ""})
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {clearedArrears.length > 0 && (
+                          <div style={{ marginTop: activeArrears.length > 0 ? "0.5rem" : 0 }}>
+                            <div style={{ fontSize: "0.8rem", fontWeight: "700", color: "var(--success)", marginBottom: "0.25rem" }}>Cleared Arrears ({clearedArrears.length})</div>
+                            <ul style={{ margin: 0, paddingLeft: "1.2rem", fontSize: "0.8rem" }}>
+                              {clearedArrears.map(a => (
+                                <li key={a.courseCode} style={{ color: "var(--text-secondary)" }}>
+                                  <strong style={{ fontFamily: "monospace" }}>{a.courseCode}</strong> - {a.courseTitle} (failed in Sem {a.failedSem}, cleared in Sem {a.clearedSem}, attempts: {a.attemptsCount})
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
+
                   <div className="section-title" style={{ fontSize: "1rem", marginBottom: 0 }}>Subject-wise Grade Sheets</div>
                   
                   {selectedStudent.grades.length === 0 ? (
@@ -2775,14 +3021,37 @@ export default function Home() {
 
               <div className="form-group">
                 <label className="form-label">SEMS Student Password</label>
-                <input 
-                  type="password" 
-                  required 
-                  placeholder="Enter your SEMS portal password"
-                  className="form-input" 
-                  value={scrapePassword} 
-                  onChange={e => setScrapePassword(e.target.value)} 
-                />
+                <div style={{ position: "relative" }}>
+                  <input 
+                    type={showScrapePassword ? "text" : "password"} 
+                    required 
+                    placeholder="Enter your SEMS portal password"
+                    className="form-input" 
+                    style={{ paddingRight: "3rem" }}
+                    value={scrapePassword} 
+                    onChange={e => setScrapePassword(e.target.value)} 
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowScrapePassword(!showScrapePassword)}
+                    style={{
+                      position: "absolute",
+                      right: "0.75rem",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      background: "none",
+                      border: "none",
+                      color: "var(--text-secondary)",
+                      cursor: "pointer",
+                      fontSize: "0.85rem",
+                      fontWeight: "600",
+                      userSelect: "none",
+                      padding: "0.25rem"
+                    }}
+                  >
+                    {showScrapePassword ? "Hide" : "Show"}
+                  </button>
+                </div>
               </div>
 
               <div className="form-group">
@@ -2895,5 +3164,56 @@ function getLatestUniqueGrades(grades) {
     }
   });
   return Object.values(latestByCourse);
+}
+
+function getArrearsHistory(grades) {
+  if (!grades || grades.length === 0) return { activeArrears: [], clearedArrears: [] };
+  
+  const attemptsByCourse = {};
+  grades.forEach(g => {
+    const code = g.courseCode;
+    if (!attemptsByCourse[code]) {
+      attemptsByCourse[code] = [];
+    }
+    attemptsByCourse[code].push(g);
+  });
+
+  const activeArrears = [];
+  const clearedArrears = [];
+
+  for (const [code, attempts] of Object.entries(attemptsByCourse)) {
+    attempts.sort((a, b) => a.semesterNo - b.semesterNo);
+
+    const failedAttempts = attempts.filter(a => 
+      a.status !== "NOT_PUBLISHED" && 
+      (a.status === "FAIL" || a.status === "RA" || a.grade === "RA" || a.grade === "U")
+    );
+
+    if (failedAttempts.length > 0) {
+      const latestAttempt = attempts[attempts.length - 1];
+      const isLatestPass = latestAttempt.status === "PASS" || latestAttempt.gradePoints > 0;
+      
+      if (isLatestPass) {
+        clearedArrears.push({
+          courseCode: code,
+          courseTitle: latestAttempt.courseTitle,
+          credits: latestAttempt.credits,
+          failedSem: failedAttempts[0].semesterNo,
+          clearedSem: latestAttempt.semesterNo,
+          attemptsCount: failedAttempts.length + 1
+        });
+      } else {
+        activeArrears.push({
+          courseCode: code,
+          courseTitle: latestAttempt.courseTitle,
+          credits: latestAttempt.credits,
+          failedSem: failedAttempts[0].semesterNo,
+          attemptsCount: failedAttempts.length
+        });
+      }
+    }
+  }
+
+  return { activeArrears, clearedArrears };
 }
 

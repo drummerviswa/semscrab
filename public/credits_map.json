@@ -1,8 +1,596 @@
 {
+  "HS3152": {
+    "credits": 4,
+    "title": "COMMUNICATIVE ENGLISH – I OBJECTIVES:  To build lexical competency and accuracy that will help learners to use language effectively  To learn various reading strategies that will enable learners to comprehend the different modes of reading materials of varied levels of complexity  To comprehend the linguistic aspects of various rhetorical structures and functions of Technical English and use them effectively in writing  To improve the communicative competence of learners  To help learners use language effectively in academic /work contexts  To use language efficiently in expressing their opinions via various media  To build lexical competency and accuracy that will help learners to use language effectively UNIT I BASICS OF COMMUNICATION + Listening – Listening to a Telephone conversation & Writing message, gap filling; Reading – Telephone message, bio-note; Writing – Message, Self-introduction / Personal profile; Grammar – Simple present tense, Present continuous tense, Asking questions (wh-questions); Vocabulary – One word substitution, Synonyms, Abbreviations & Acronyms LAB ACTIVITY: Introducing oneself – Self introduction; Telephone conversation, Relaying telephone message – Role play UNIT II NARRATION + Listening – Listening to a Travel podcast / Watching a travel documentary; Reading – Reading an excerpt from a travelogue, Newspaper Report; Writing – Narrative writing – event, personal experience; Grammar – Subject – verb, Simple past, Past continuous Tenses; Vocabulary – Antonyms, Word formation (Prefix & Suffix) LAB ACTIVITY: Narrating one’s personal experience in front of a group – formal and informal context – first day in college / vacation / first achievement / failure etc., UNIT III DESCRIPTION + Listening – Listening to a conversation, Listening to an advertisement; Reading – Reading a tourist brochure & planning an itinerary, Reading a descriptive article / excerpts from literature; Writing – Writing definitions, Paragraph writing (Descriptive); Grammar – Future tenses, Perfect tenses, Preposition; Vocabulary – Adjectives, Adverbs LAB ACTIVITY: Making conversation – formal & informal – Turn taking & Turn giving – Small talk UNIT IV CLASSIFICATION + Listening – Listening to announcements & filling a table; Reading – Reading an article, Reading social media posts and classifying (channel conversion – text to table); Writing – Note making, Note taking & Summarising, Writing a classification paragraph; Grammar – Discourse markers – Connectives, Transition words; Vocabulary – Conjunctions, Contextual vocabulary LAB ACTIVITY: Making short presentations – Different clubs and their activities in the college / Campus Facilities – About your native place and its major attractions UNIT V ARTICULATION / EXPRESSION / DISCUSSION + Listening – Listening to a debate, Discussion; Reading – Reading formal letters, Letters to Editor, Opinion articles / Blogs; Writing – Letter writing, Email writing (To Editor, Complaint letter, Enquiry letter); Grammar – Question tags, Indirect questions, Yes / No questions; Vocabulary – Compound words, Phrasal verbs",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "MA3162": {
+    "credits": 4,
+    "title": "MATRICES AND CALCULUS OBJECTIVES:  To develop the use of matrix algebra techniques that is needed by engineers for practical applications  To familiarize the student with functions of several variables. This is needed in many branches of engineering  To solving integrals by using Beta and Gamma functions and their applications  To acquaint the student with mathematical tools needed in evaluating multiple integrals and their applications  To acquaint the students with the concepts of vector calculus which naturally arises in many engineering problems UNIT I MATRICES Eigen values and Eigen vectors – Properties of Eigen values - Linear dependence and independence of Eigen vectors - Cayley-Hamilton theorem (excluding proof), Reduction to",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "PH3152": {
+    "credits": 3,
+    "title": "Applied Physics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "CY3152": {
+    "credits": 3,
+    "title": "Chemistry of Materials",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3151": {
+    "credits": 4,
+    "title": "Digital Systems",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3152": {
+    "credits": 4,
+    "title": "Problem Solving and Programming PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "GE3163": {
+    "credits": 2,
+    "title": "Computer Aided Engineering Drawing Laboratory TOTAL 3 SEMESTER II S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "HS3252": {
+    "credits": 4,
+    "title": "Communicative English – II",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "EE3151": {
+    "credits": 4,
+    "title": "Basic Electrical and Electronics Engineering",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "MA3253": {
+    "credits": 4,
+    "title": "Ordinary Differential Equations and Transform Techniques",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3251": {
+    "credits": 4,
+    "title": "Python Programming",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3251": {
+    "credits": 3,
+    "title": "Data Structures",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3252": {
+    "credits": 3,
+    "title": "Computer Architecture PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3261": {
+    "credits": 2,
+    "title": "Data Structures Laboratory TOTAL 3",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "MA3351": {
+    "credits": 4,
+    "title": "Partial Differential Equations and Complex Functions",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3351": {
+    "credits": 4,
+    "title": "Object-Oriented Programming using ++",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3352": {
+    "credits": 3,
+    "title": "Database Management Systems",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3351": {
+    "credits": 4,
+    "title": "Operating Systems",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3352": {
+    "credits": 4,
+    "title": "Microprocessor and Applications",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3353": {
+    "credits": 3,
+    "title": "Principles of Analog and Digital Communication Systems PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3361": {
+    "credits": 2,
+    "title": "Database Management Systems Laboratory TOTAL SEMESTER IV S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "MA3451": {
+    "credits": 4,
+    "title": "Discrete Structures",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3401": {
+    "credits": 3,
+    "title": "Algebra and Number Theory",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3451": {
+    "credits": 4,
+    "title": "Software Engineering",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3452": {
+    "credits": 3,
+    "title": "Java Programming",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3451": {
+    "credits": 4,
+    "title": "Computer Networks",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "CY3251": {
+    "credits": 2,
+    "title": "Environmental Science and Sustainability PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3461": {
+    "credits": 2,
+    "title": "Java Programming Laboratory TOTAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "MA3551": {
+    "credits": 4,
+    "title": "Probability and Statistics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3501": {
+    "credits": 4,
+    "title": "Cryptography and Data Security",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3551": {
+    "credits": 4,
+    "title": "Data Warehousing and Mining",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3552": {
+    "credits": 3,
+    "title": "Web Technology",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3551": {
+    "credits": 4,
+    "title": "Theory of Computation . Professional Elective – I PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3561": {
+    "credits": 2,
+    "title": "Web Technology Laboratory TOTAL 2 SEMESTER VI S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "MA3651": {
+    "credits": 4,
+    "title": "Operations Research",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3601": {
+    "credits": 3,
+    "title": "Compiler Design",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3651": {
+    "credits": 4,
+    "title": "Machine Learning",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3651": {
+    "credits": 4,
+    "title": "Design and Analysis of Algorithms",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3652": {
+    "credits": 3,
+    "title": "Cloud Computing . Professional Elective – II PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3611": {
+    "credits": 2,
+    "title": "Mini Project TOTAL 2",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3711": {
+    "credits": 16,
+    "title": "Industrial Project TOTAL SEMESTER VIII S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "MA3851": {
+    "credits": 4,
+    "title": "Advanced Statistical Methods for Computing",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3801": {
+    "credits": 3,
+    "title": "Networking Technologies",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3851": {
+    "credits": 3,
+    "title": "Principles of Management and Behavioural Sciences",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3851": {
+    "credits": 3,
+    "title": "Artificial Intelligence",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3852": {
+    "credits": 3,
+    "title": "Cyber Security . Professional Elective – III . Professional Elective – IV PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3861": {
+    "credits": 2,
+    "title": "Statistical Programming Laboratory using R and Python TOTAL 2",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "MA3951": {
+    "credits": 4,
+    "title": "Numerical Methods TOTAL PROFESSIONAL CORE COURSES () S. NO COURSE CODE COURSE TITLE CATEG ORY CONTACT PERIODS",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3951": {
+    "credits": 3,
+    "title": "Internet of Things",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3901": {
+    "credits": 4,
+    "title": "Digital Forensics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3951": {
+    "credits": 3,
+    "title": "Multimedia Technologies . Professional Elective – V . Professional Elective – VI PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3961": {
+    "credits": 2,
+    "title": "Internet of Things Laboratory Total EMPLOYABILITY ENHANCEMENT COURSES () S.NO COURSE CODE COURSE TITLE CATEGORY CONTACT PERIODS",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3911": {
+    "credits": 2,
+    "title": "Creative and Innovative Project TOTAL SEMESTER X S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS PRACTICAL",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3011": {
+    "credits": 16,
+    "title": "Project Work Total PROFESSIONAL ELECTIVE COURSES () S.N O. COURSE CODE COURSE TITLE CATEG ORY CONTACT PERIODS",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3071": {
+    "credits": 3,
+    "title": "Adhoc and Sensor Networks",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3071": {
+    "credits": 3,
+    "title": "Big Data Analytics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3072": {
+    "credits": 3,
+    "title": "Bio-Inspired Computing",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3072": {
+    "credits": 3,
+    "title": "Block Chain Technologies",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3073": {
+    "credits": 3,
+    "title": "Computational Finance",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3073": {
+    "credits": 3,
+    "title": "Computer Graphics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3074": {
+    "credits": 3,
+    "title": "Database Administration",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3075": {
+    "credits": 3,
+    "title": "Database Tuning",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3076": {
+    "credits": 3,
+    "title": "Data Science and Analytics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3074": {
+    "credits": 3,
+    "title": "Deep Learning",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3075": {
+    "credits": 3,
+    "title": "Digital Image Processing",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3076": {
+    "credits": 3,
+    "title": "E - Learning",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3077": {
+    "credits": 3,
+    "title": "Enterprise Application Development",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3077": {
+    "credits": 3,
+    "title": "Game Design and Development",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3078": {
+    "credits": 3,
+    "title": "Geographical Information System",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3079": {
+    "credits": 3,
+    "title": "Information Coding Techniques",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3080": {
+    "credits": 3,
+    "title": "Information Retrieval Techniques",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3081": {
+    "credits": 3,
+    "title": "Information Security",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3082": {
+    "credits": 3,
+    "title": "Marketing Analytics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3078": {
+    "credits": 3,
+    "title": "Mobile Computing",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3079": {
+    "credits": 3,
+    "title": "Modelling and Simulation",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3083": {
+    "credits": 3,
+    "title": "Multimedia Analytics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3080": {
+    "credits": 3,
+    "title": "Natural Language Processing",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3081": {
+    "credits": 3,
+    "title": "Network Science",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3084": {
+    "credits": 3,
+    "title": "Open Source Programming",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3085": {
+    "credits": 3,
+    "title": "Pattern Recognition",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3086": {
+    "credits": 3,
+    "title": "Personal Software Processes",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3082": {
+    "credits": 3,
+    "title": "Quantum Computing",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3087": {
+    "credits": 3,
+    "title": "Semantic Web",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3083": {
+    "credits": 3,
+    "title": "Social Psychology",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3088": {
+    "credits": 3,
+    "title": "Software Testing and Quality Assurance",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3089": {
+    "credits": 3,
+    "title": "Total Quality Management",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XC3084": {
+    "credits": 3,
+    "title": "Unix and Network Programming",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3090": {
+    "credits": 3,
+    "title": "User Interface Design",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3091": {
+    "credits": 3,
+    "title": "Web Analytics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2023"
+  },
+  "XT3401": {
+    "credits": 3,
+    "title": "Linear Algebra",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2023"
+  },
+  "XT3501": {
+    "credits": 4,
+    "title": "Object Oriented Analysis and Design",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2023"
+  },
+  "XT3601": {
+    "credits": 3,
+    "title": "Software Project Management",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2023"
+  },
+  "XT3611": {
+    "credits": 2,
+    "title": "Mini Project TOTAL 2",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2023"
+  },
+  "XT3711": {
+    "credits": 16,
+    "title": "Industrial Project TOTAL SEMESTER VIII S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2023"
+  },
+  "XT3801": {
+    "credits": 3,
+    "title": "Advanced Networks",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2023"
+  },
+  "XT3901": {
+    "credits": 4,
+    "title": "Advanced Database Technology and Design",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2023"
+  },
+  "XT3911": {
+    "credits": 2,
+    "title": "Creative and Innovative Project TOTAL SEMESTER X S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS PRACTICAL",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2023"
+  },
+  "XT3011": {
+    "credits": 16,
+    "title": "Project Work Total PROFESSIONAL ELECTIVE COURSES () S.NO COURSE CODE COURSE TITLE CATEGO RY CONTACT PERIODS",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2023"
+  },
   "HS5152": {
     "credits": 3,
-    "title": "Communicative English",
-    "branch": "MSc Computer Science (5 Years)",
+    "title": "COMMUNICATIVE ENGLISH OBJECTIVES:  To give more practice in using the four basic language skills – reading, writing, listening and speaking  To learn to communicate in both oral and written form in a formal context  To interpret graphical information and make inferences  To critically evaluate online content and comprehend the message UNIT I Listening –Listening for information – Filling in details – Speaking – Self introduction – Describing a place – Reading – Reading for comprehension – Skimming and scanning – Writing – Descriptive writing – Place description – Picture description - Grammar – Adjectives – Comparative adjectives – Grammar – Tenses – Simple present – Simple past UNIT II Listening – Listening to lectures / talks – Note taking – Identifying main and supporting points - Speaking – Asking questions –Reading – Reading to summarise – Understanding an article / news report – Writing – Paragraph writing – Coherence – cohesion - Grammar – Question tags – Prepositions – Vocabulary – One word substitutes UNIT III Listening – Dialogic listening – Listening for details – Speaking – Conversation – Formal & informal conversation – Small talk – Roleplay – Reading – Intensive reading - Inferring from charts / graphs/tables – Writing – channel conversion – transferring information from other data forms to written form – Grammar –– subject – verb agreement – Indirect questions – Wh- questions - Vocabulary – Prefixes - Suffixes UNIT IV Listening –Active listening – Empathetic listening – Speaking – Describing a product & its features – Telephone conversation – Asking for information or clarification etc – Reading – User manual – Product specifications – Comprehending the technical details – Writing – Product descriptions – Letter writing – Official letters – Letter of enquiry / complaint etc. – Letter to Dean – Asking for some help - Grammar –Tenses – Present perfect – Past perfect – Vocabulary – Numerical compounds UNIT V Listening – Critical & Evaluative listening – Summarising the details – Speaking – small group discussions – agreeing & disagreeing – Reading – Critical reading – online content – social media posts –differentiating between fact v opinion – Writing – Essay writing – cause & effect - Evaluative essays – Grammar – Connectives –Future forms - Vocabulary – Homonyms & Homophones – Idioms TOTAL: PERIODS OUTCOMES By the end of the course students would have  Gained more practice in using four language skills – listening, speaking, reading and writing  Learnt to communicate in both oral and written form in formal and informal context  Known how to interpret graphical images and infer the message in them  Learnt how to critically evaluate online content and understand the message REFERENCES: . Sudharshana N. &.Savitha. “ENGLISH FOR TECHNICAL COMMUNICAT ION” (Units - ). Cambridge: Cambridge University Press, 06. . Mindscapes, Department of English, Anna University, Chennai, Orient Blackswan, 0. . Sood S..et al, “Developing Communication Skills: Oral Communication and Reading Comprehension, Writing Skills and Workbook.” Manohar, New Delhi: 00. . Sasikumar V., .KiranmayiDutt and GeethaRajeevan, Listening and Speaking II New Delhi:Foundation Books, 00",
+    "branch": "MSc Integrated Information Technology",
     "regulation": "2019"
   },
   "MA5151": {
@@ -341,6 +929,234 @@
     "branch": "MSc Integrated Information Technology",
     "regulation": "2019"
   },
+  "XC5071": {
+    "credits": 3,
+    "title": "High speed networks",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5072": {
+    "credits": 3,
+    "title": "Unix Internals",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5075": {
+    "credits": 3,
+    "title": "Database Tuning",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5076": {
+    "credits": 3,
+    "title": "Software Project Management",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5077": {
+    "credits": 3,
+    "title": "Personal Software Processes ELECTIVE III S.NO. COURSE CODE COURSE TITLE CATEGORY TOTAL CONTACT PERIODS",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5078": {
+    "credits": 3,
+    "title": "Visualization Techniques",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5079": {
+    "credits": 3,
+    "title": "Digital Image Processing",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5073": {
+    "credits": 3,
+    "title": "Network Programming",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5080": {
+    "credits": 3,
+    "title": "Soft Computing",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5074": {
+    "credits": 3,
+    "title": "Natural Language Processing",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5081": {
+    "credits": 3,
+    "title": "Information Security ELECTIVE IV S.NO. COURSE CODE COURSE TITLE CATEGORY CONTACT PERIODS",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5082": {
+    "credits": 3,
+    "title": "Adhoc and Sensor Networks",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5083": {
+    "credits": 3,
+    "title": "Information Retrieval Techniques",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5084": {
+    "credits": 3,
+    "title": "Semantic Web",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5085": {
+    "credits": 3,
+    "title": "Performance Evaluation of System and Networks",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5086": {
+    "credits": 3,
+    "title": "Bio Informatics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5087": {
+    "credits": 3,
+    "title": "Total Quality Management ELECTIVE V S.NO. COURSE CODE COURSE TITLE CATEGORY TOTAL CONTACT PERIODS",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5088": {
+    "credits": 3,
+    "title": "3G & 4G Wireless Networks",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5075": {
+    "credits": 3,
+    "title": "Computational Linguistics",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5089": {
+    "credits": 3,
+    "title": "Mobile and Pervasive Computing",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5076": {
+    "credits": 3,
+    "title": "Computer Vision",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5077": {
+    "credits": 3,
+    "title": "Biometrics ELECTIVE VI S.NO. COURSE CODE COURSE TITLE CATEGORY TOTAL CONTACT PERIODS",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "XT5090": {
+    "credits": 3,
+    "title": "Multimedia Information Storage and Retrieval",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5091": {
+    "credits": 3,
+    "title": "Game Programming",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5092": {
+    "credits": 3,
+    "title": "Augmented Reality and Virtual Reality",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5078": {
+    "credits": 3,
+    "title": "Pattern Recognition",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XT5093": {
+    "credits": 3,
+    "title": "Multimedia Tools and Techniques",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "XC5079": {
+    "credits": 3,
+    "title": "Software Testing and Quality Assurance OPEN ELECTIVES COURSES () S.NO. COURSE CODE COURSE TITLE CATEGORY TOTAL CONTACT PERIODS",
+    "branch": "MSc Integrated Information Technology",
+    "regulation": "2019"
+  },
+  "MA5891": {
+    "credits": 3,
+    "title": "Graph Theory",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "MA5991": {
+    "credits": 3,
+    "title": "Statistical Methods AUDIT COURSES (AC) Registration for any of these courses is optional to students SL.NO COURSE CODE COURSE TITLE PERIODS PER WEEK CREDITS SEMESTERLecture Tutorial Practical",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "AX5091": {
+    "credits": 5,
+    "title": "English for Research Paper Writing /",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "AX5092": {
+    "credits": 3,
+    "title": "Disaster Management",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "AX5093": {
+    "credits": 4,
+    "title": "Sanskrit for Technical Knowledge",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "AX5094": {
+    "credits": 5,
+    "title": "Value Education",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "AX5095": {
+    "credits": 6,
+    "title": "Constitution of India",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "AX5096": {
+    "credits": 7,
+    "title": "Pedagogy Studies",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "AX5097": {
+    "credits": 8,
+    "title": "Stress Management by Yoga",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
+  "AX5098": {
+    "credits": 9,
+    "title": "Personality Development through Life Enlightenment Skills",
+    "branch": "MSc Computer Science (5 Years)",
+    "regulation": "2019"
+  },
   "XT5501": {
     "credits": 4,
     "title": "Advanced Database Management Systems",
@@ -383,70 +1199,1426 @@
     "branch": "MSc Integrated Information Technology",
     "regulation": "2019"
   },
-  "XC5071": {
+  "HS3101": {
     "credits": 3,
-    "title": "High speed networks",
-    "branch": "MSc Integrated Information Technology",
+    "title": "English for Media – I",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3101": {
+    "credits": 3,
+    "title": "Audiography",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3102": {
+    "credits": 3,
+    "title": "Development of Media",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3103": {
+    "credits": 3,
+    "title": "Introduction to Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3104": {
+    "credits": 3,
+    "title": "Principles of Journalism PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "HS3111": {
+    "credits": 2,
+    "title": "English Lab – I",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3111": {
+    "credits": 2,
+    "title": "Drawing Lab - I",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3112": {
+    "credits": 3,
+    "title": "Visual Design Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3113": {
+    "credits": 2,
+    "title": "Media Aesthetics Lab TOTAL SEMESTER II S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTAC PERIODS CREDITS THEORY",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "HS3201": {
+    "credits": 3,
+    "title": "English for Media – II",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3201": {
+    "credits": 3,
+    "title": "Critical thinking and Creativity",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3202": {
+    "credits": 3,
+    "title": "Political Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3203": {
+    "credits": 3,
+    "title": "Photography",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3204": {
+    "credits": 3,
+    "title": "Radio Programme Production PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "HS3211": {
+    "credits": 2,
+    "title": "English Lab II TOTAL CREDITS",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3211": {
+    "credits": 2,
+    "title": "Drawing Lab – II",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3212": {
+    "credits": 2,
+    "title": "Photography Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3213": {
+    "credits": 2,
+    "title": "Radio Programme production Lab TOTAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3301": {
+    "credits": 4,
+    "title": "Script Writing",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3302": {
+    "credits": 3,
+    "title": "Media Culture and Society",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3303": {
+    "credits": 3,
+    "title": "News Reporting",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3304": {
+    "credits": 3,
+    "title": "Python Programming",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3305": {
+    "credits": 3,
+    "title": "Video Production PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3311": {
+    "credits": 3,
+    "title": "News Writing Lab S.No. COURSE CODE COURSE TITLE Periods per week Credits Semester",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3312": {
+    "credits": 2,
+    "title": "Python Programming Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3313": {
+    "credits": 2,
+    "title": "Video Production Lab TOTAL SEMESTER IV S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3401": {
+    "credits": 3,
+    "title": "Environment and Media",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3402": {
+    "credits": 3,
+    "title": "Advertising",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3403": {
+    "credits": 4,
+    "title": "Multimedia Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3404": {
+    "credits": 3,
+    "title": "Principles of Animation",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3405": {
+    "credits": 3,
+    "title": "Video Editing PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3411": {
+    "credits": 2,
+    "title": "2D Animation Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3412": {
+    "credits": 2,
+    "title": "Advertising Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3413": {
+    "credits": 3,
+    "title": "Video Editing Lab TOTAL 3",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3501": {
+    "credits": 3,
+    "title": "Public Relations",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3502": {
+    "credits": 3,
+    "title": "Media Laws and Ethics",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3503": {
+    "credits": 3,
+    "title": "Film Studies",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3504": {
+    "credits": 3,
+    "title": "Multimedia Content Creation",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3505": {
+    "credits": 3,
+    "title": "User Interface and Experience Design PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3511": {
+    "credits": 2,
+    "title": "Film Appreciation Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3512": {
+    "credits": 2,
+    "title": "Multimedia Content Creation Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3513": {
+    "credits": 2,
+    "title": "User Interface and Experience Design Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3514": {
+    "credits": 3,
+    "title": "Introduction to 3D Animation Lab TOTAL SEMESTER VI S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3601": {
+    "credits": 3,
+    "title": "Communication for Social Change",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3602": {
+    "credits": 3,
+    "title": "Digital Marketing Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3603": {
+    "credits": 3,
+    "title": "Previsualization Techniques",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3604": {
+    "credits": 3,
+    "title": "Web Development . Professional Elective – I PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3611": {
+    "credits": 2,
+    "title": "Documentary Production Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3612": {
+    "credits": 3,
+    "title": "Visual Effects Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3613": {
+    "credits": 2,
+    "title": "Web Development Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3614": {
+    "credits": 2,
+    "title": "Portfolio and Presentation skills TOTAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3711": {
+    "credits": 16,
+    "title": "Internship TOTAL SEMESTER VIII S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3801": {
+    "credits": 3,
+    "title": "Communication Theories",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3802": {
+    "credits": 3,
+    "title": "Media Psychology",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3803": {
+    "credits": 3,
+    "title": "E-Content",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3804": {
+    "credits": 3,
+    "title": "Game Design and Development . Professional Elective – II PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3811": {
+    "credits": 2,
+    "title": "E-Content Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3812": {
+    "credits": 2,
+    "title": "Game design and development Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3813": {
+    "credits": 2,
+    "title": "Motion graphics Lab . Professional Elective- II Lab TOTAL SEMESTER IX S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3901": {
+    "credits": 3,
+    "title": "Communication Research Methods RMC",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3902": {
+    "credits": 3,
+    "title": "Content Writing",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3903": {
+    "credits": 3,
+    "title": "Statistics and Data Visualization Techniques . Professional Elective – III . Professional Elective – IV PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3911": {
+    "credits": 2,
+    "title": "Mini Project . Professional Elective – III Lab . Professional Elective – IV Lab TOTAL 2",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3081": {
+    "credits": 3,
+    "title": "Artificial Intelligence for Media",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3082": {
+    "credits": 10,
+    "title": "Media Entrepreneurship PROFESSIONAL ELECTIVES COURSES () SEMESTER VI ELECTIVE I S. No. Course Code Course Title Category Periods per Week Total Contact Periods Credits THEORY",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3083": {
+    "credits": 16,
+    "title": "Project Work TOTAL TOTAL CREDITS FOR THE PROGRAMME: 2",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3001": {
+    "credits": 3,
+    "title": "Art direction and production design",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3002": {
+    "credits": 3,
+    "title": "Big Data Analytics",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3003": {
+    "credits": 3,
+    "title": "Brand Management",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3004": {
+    "credits": 3,
+    "title": "Business Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3005": {
+    "credits": 3,
+    "title": "Climate Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3006": {
+    "credits": 3,
+    "title": "Community Media",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3007": {
+    "credits": 3,
+    "title": "Compering Techniques",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3008": {
+    "credits": 3,
+    "title": "Conflict and Peace Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3009": {
+    "credits": 3,
+    "title": "Copywriting",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3010": {
+    "credits": 3,
+    "title": "Corporate Social Responsibility",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3011": {
+    "credits": 3,
+    "title": "Crisis Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3012": {
+    "credits": 3,
+    "title": "Critical Issues in Media",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3013": {
+    "credits": 3,
+    "title": "Cyber Laws",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3014": {
+    "credits": 3,
+    "title": "Digital Advertising",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3015": {
+    "credits": 3,
+    "title": "Health Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3016": {
+    "credits": 3,
+    "title": "ICT for Development",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3017": {
+    "credits": 3,
+    "title": "Media Activism and Advocacy",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3018": {
+    "credits": 3,
+    "title": "Media and",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3019": {
+    "credits": 3,
+    "title": "Media and Sustainable Development",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3020": {
+    "credits": 3,
+    "title": "Media and Women",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3021": {
+    "credits": 3,
+    "title": "Media Practices in Resettlement",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3022": {
+    "credits": 3,
+    "title": "Online Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3023": {
+    "credits": 3,
+    "title": "Operations Research for Media",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3024": {
+    "credits": 3,
+    "title": "Science Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3025": {
+    "credits": 3,
+    "title": "Social Media",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3026": {
+    "credits": 3,
+    "title": "Statistics for Media Research",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3027": {
+    "credits": 3,
+    "title": "Visual Literacy SEMESTER VIII, IX ELECTIVE II, III & IV S. No. Course Code Course Title Category Periods per Week Total Contact Periods Credits THEORY",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3028": {
+    "credits": 3,
+    "title": "3D Game Development",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3030": {
+    "credits": 3,
+    "title": "Advanced Web Technologies",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3032": {
+    "credits": 3,
+    "title": "Business Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3034": {
+    "credits": 3,
+    "title": "Character Animation",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3036": {
+    "credits": 3,
+    "title": "Data Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3038": {
+    "credits": 3,
+    "title": "Database Management Systems",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3040": {
+    "credits": 3,
+    "title": "Development Reporting",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3042": {
+    "credits": 3,
+    "title": "Digital Story Telling",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3044": {
+    "credits": 3,
+    "title": "Educational Content Development",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3046": {
+    "credits": 3,
+    "title": "Electronics for Radio and Television",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3048": {
+    "credits": 3,
+    "title": "Integrated Marketing Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3050": {
+    "credits": 3,
+    "title": "Investigative Reporting",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3052": {
+    "credits": 3,
+    "title": "Media Commercials",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3054": {
+    "credits": 3,
+    "title": "Media Soaps and Society",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3056": {
+    "credits": 3,
+    "title": "Mobile Application Development",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "XM3058": {
+    "credits": 3,
+    "title": "Presentation Techniques",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2023"
+  },
+  "HS5101": {
+    "credits": 3,
+    "title": "English for Media - I",
+    "branch": "MSc Electronic Media (5 Years)",
     "regulation": "2019"
   },
-  "XC5072": {
+  "XM5101": {
     "credits": 3,
-    "title": "Unix Internals",
-    "branch": "MSc Integrated Information Technology",
+    "title": "Computer Graphics",
+    "branch": "MSc Electronic Media (5 Years)",
     "regulation": "2019"
   },
-  "XT5075": {
+  "XM5102": {
     "credits": 3,
-    "title": "Database Tuning",
-    "branch": "MSc Integrated Information Technology",
+    "title": "Development of Media",
+    "branch": "MSc Electronic Media (5 Years)",
     "regulation": "2019"
   },
-  "XT5076": {
+  "XM5103": {
     "credits": 3,
-    "title": "Software Project Management",
-    "branch": "MSc Integrated Information Technology",
+    "title": "Principles of Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
     "regulation": "2019"
   },
-  "XT5077": {
+  "XM5104": {
     "credits": 3,
-    "title": "Personal Software Processes ELECTIVE III S.NO. COURSE CODE COURSE TITLE CATEGORY TOTAL CONTACT PERIODS",
-    "branch": "MSc Integrated Information Technology",
+    "title": "Sound and Acoustics PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
     "regulation": "2019"
   },
-  "XT5078": {
-    "credits": 3,
-    "title": "Visualization Techniques",
-    "branch": "MSc Integrated Information Technology",
+  "HS5111": {
+    "credits": 2,
+    "title": "English Lab I",
+    "branch": "MSc Electronic Media (5 Years)",
     "regulation": "2019"
   },
-  "XT5079": {
-    "credits": 3,
-    "title": "Digital Image Processing",
-    "branch": "MSc Integrated Information Technology",
+  "XM5111": {
+    "credits": 2,
+    "title": "Computer Graphics Lab",
+    "branch": "MSc Electronic Media (5 Years)",
     "regulation": "2019"
   },
-  "XC5073": {
-    "credits": 3,
-    "title": "Network Programming",
-    "branch": "MSc Integrated Information Technology",
+  "XM5112": {
+    "credits": 2,
+    "title": "Drawing Lab – I TOTAL SEMESTER II S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Electronic Media (5 Years)",
     "regulation": "2019"
   },
-  "XT5080": {
+  "HS5201": {
     "credits": 3,
-    "title": "Soft Computing",
-    "branch": "MSc Integrated Information Technology",
+    "title": "English for Media - II",
+    "branch": "MSc Electronic Media (5 Years)",
     "regulation": "2019"
   },
-  "XC5074": {
+  "XM5201": {
     "credits": 3,
-    "title": "Natural Language Processing",
-    "branch": "MSc Integrated Information Technology",
+    "title": "Critical Thinking and Creativity",
+    "branch": "MSc Electronic Media (5 Years)",
     "regulation": "2019"
   },
-  "XT5081": {
+  "XM5202": {
     "credits": 3,
-    "title": "Information Security",
-    "branch": "MSc Integrated Information Technology",
+    "title": "Introduction to Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5203": {
+    "credits": 3,
+    "title": "Radio Production",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5204": {
+    "credits": 3,
+    "title": "Programming in PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "HS5211": {
+    "credits": 2,
+    "title": "English Lab II TOTAL CREDITS PROGRAMME CORE COURSES () S.No. COURSE CODE COURSE TITLE Periods per week Credits Semester",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5211": {
+    "credits": 2,
+    "title": "Radio Production Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5212": {
+    "credits": 2,
+    "title": "Programming in Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5213": {
+    "credits": 2,
+    "title": "Drawing Lab – II TOTAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5301": {
+    "credits": 4,
+    "title": "Principles of Advertising",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5302": {
+    "credits": 3,
+    "title": "News Reporting",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5303": {
+    "credits": 3,
+    "title": "Photography",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5304": {
+    "credits": 3,
+    "title": "2D Animation",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5305": {
+    "credits": 4,
+    "title": "Scripting for Electronic Media PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5311": {
+    "credits": 2,
+    "title": "2D Animation Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5312": {
+    "credits": 2,
+    "title": "News Writing Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5313": {
+    "credits": 2,
+    "title": "Photography Lab TOTAL SEMESTER IV S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5401": {
+    "credits": 3,
+    "title": "Environment and Media",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5402": {
+    "credits": 3,
+    "title": "Game Design and Development",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5403": {
+    "credits": 3,
+    "title": "Editing Techniques",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5404": {
+    "credits": 3,
+    "title": "Media, Culture and Society",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5405": {
+    "credits": 3,
+    "title": "Public Relations and Event Management",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5406": {
+    "credits": 4,
+    "title": "Video Production Techniques PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5411": {
+    "credits": 2,
+    "title": "Game Design and Development Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5412": {
+    "credits": 2,
+    "title": "Editing Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5413": {
+    "credits": 2,
+    "title": "Public Relations and Event Management Lab TOTAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5501": {
+    "credits": 4,
+    "title": "Electronic Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5502": {
+    "credits": 3,
+    "title": "Television Programme Production",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5503": {
+    "credits": 3,
+    "title": "Communication for Development",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5504": {
+    "credits": 3,
+    "title": "3D Animation",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5505": {
+    "credits": 4,
+    "title": "User Interface and Experience Design PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5511": {
+    "credits": 2,
+    "title": "Television Programme Production Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5512": {
+    "credits": 2,
+    "title": "3D Animation Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5513": {
+    "credits": 2,
+    "title": "User Interface and Experience Design Lab TOTAL 3 SEMESTER VI S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5601": {
+    "credits": 16,
+    "title": "Industrial Project TOTAL SEMESTER VII S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5701": {
+    "credits": 3,
+    "title": "E-Learning",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5702": {
+    "credits": 3,
+    "title": "Media Laws and Ethics",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5703": {
+    "credits": 4,
+    "title": "Digital Marketing",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5704": {
+    "credits": 4,
+    "title": "Web Development . Program Elective - I . Audit Course –I* AC PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5711": {
+    "credits": 2,
+    "title": "E-Learning Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5712": {
+    "credits": 2,
+    "title": "Short film Production Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5713": {
+    "credits": 2,
+    "title": "Web Development Lab TOTAL *Audit course is optional",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5801": {
+    "credits": 3,
+    "title": "Science Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5802": {
+    "credits": 3,
+    "title": "Media Psychology",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5803": {
+    "credits": 3,
+    "title": "Media Management and Entrepreneurship . Open Elective - I . Program Elective - II . Audit Course – II* AC PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5811": {
+    "credits": 2,
+    "title": "Digital Film-making Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5812": {
+    "credits": 2,
+    "title": "Motion Graphics Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5813": {
+    "credits": 2,
+    "title": "Mini Project . Program Elective – II Lab TOTAL *Audit course is optional SEMESTER IX S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS THEORY",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5901": {
+    "credits": 3,
+    "title": "Data Analysis",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5902": {
+    "credits": 9,
+    "title": "Film Studies TOTAL CREDITS",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5903": {
+    "credits": 4,
+    "title": "Research Methodology RMC . Program Elective – III . Program Elective - IV PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5911": {
+    "credits": 3,
+    "title": "Mini Project . Program Elective – III Lab . Program Elective – IV Lab TOTAL SEMESTER X S. NO. COURSE CODE COURSE TITLE CATE GORY PERIODS PER WEEK TOTAL CONTACT PERIODS CREDITS PRACTICAL",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5091": {
+    "credits": 18,
+    "title": "Dissertation TOTAL TOTAL CREDITS FOR THE PROGRAMME:",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5001": {
+    "credits": 3,
+    "title": "Climate Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5002": {
+    "credits": 3,
+    "title": "Conflict and Peace Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5003": {
+    "credits": 3,
+    "title": "Critical Issues in Media",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5004": {
+    "credits": 3,
+    "title": "Online Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5005": {
+    "credits": 3,
+    "title": "Business Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5008": {
+    "credits": 3,
+    "title": "Data Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5010": {
+    "credits": 3,
+    "title": "Development Reporting",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5012": {
+    "credits": 3,
+    "title": "Investigative Reporting",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5014": {
+    "credits": 3,
+    "title": "Sports Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5016": {
+    "credits": 3,
+    "title": "Tamil Journalism",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5007": {
+    "credits": 3,
+    "title": "Art direction and production design",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5018": {
+    "credits": 3,
+    "title": "Community Media",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5019": {
+    "credits": 3,
+    "title": "Compering Techniques",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5020": {
+    "credits": 3,
+    "title": "Digital Story Telling",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5022": {
+    "credits": 3,
+    "title": "Documentary Production",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5024": {
+    "credits": 3,
+    "title": "Electronics for Radio and Television",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5026": {
+    "credits": 3,
+    "title": "Educational Content Development",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5028": {
+    "credits": 3,
+    "title": "Presentation Techniques",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5030": {
+    "credits": 3,
+    "title": "Media Commercials",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5032": {
+    "credits": 3,
+    "title": "Media Soaps and Society",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5034": {
+    "credits": 3,
+    "title": "Brand Management",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5035": {
+    "credits": 3,
+    "title": "Business Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5036": {
+    "credits": 3,
+    "title": "Corporate Social Responsibility",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5037": {
+    "credits": 3,
+    "title": "Crisis Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5038": {
+    "credits": 3,
+    "title": "Digital Advertising",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5039": {
+    "credits": 3,
+    "title": "Integrated Marketing Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5041": {
+    "credits": 3,
+    "title": "Advanced Web Technologies",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5043": {
+    "credits": 3,
+    "title": "Database Management Systems",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5045": {
+    "credits": 3,
+    "title": "Mobile Application Development",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5047": {
+    "credits": 3,
+    "title": "Character Animation",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5049": {
+    "credits": 3,
+    "title": "Virtual and Augmented Reality",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5051": {
+    "credits": 3,
+    "title": "Visual Effects",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5053": {
+    "credits": 3,
+    "title": "3D Game Development",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5055": {
+    "credits": 3,
+    "title": "Big Data Analytics",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5056": {
+    "credits": 3,
+    "title": "Cyber Laws",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5057": {
+    "credits": 3,
+    "title": "Health Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5058": {
+    "credits": 3,
+    "title": "ICT for Development",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5059": {
+    "credits": 3,
+    "title": "Media Activism and Advocacy",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5060": {
+    "credits": 3,
+    "title": "Media and Disaster Management",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5061": {
+    "credits": 3,
+    "title": "Media and Sustainable Development",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5062": {
+    "credits": 3,
+    "title": "Media and Women",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5063": {
+    "credits": 3,
+    "title": "Media Practices in Resettlement",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5064": {
+    "credits": 3,
+    "title": "Operations Research for Media",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5065": {
+    "credits": 3,
+    "title": "Political Communication",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5066": {
+    "credits": 3,
+    "title": "Social Media",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5067": {
+    "credits": 3,
+    "title": "Statistics for Media Research LAB",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5006": {
+    "credits": 2,
+    "title": "Business Journalism Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5009": {
+    "credits": 2,
+    "title": "Data Journalism Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5011": {
+    "credits": 2,
+    "title": "Development Reporting Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5013": {
+    "credits": 2,
+    "title": "Investigative Reporting Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5015": {
+    "credits": 2,
+    "title": "Sports Journalism Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5017": {
+    "credits": 2,
+    "title": "Tamil Journalism Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5021": {
+    "credits": 2,
+    "title": "Digital Story Telling Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5023": {
+    "credits": 2,
+    "title": "Documentary Production Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5025": {
+    "credits": 2,
+    "title": "Electronics for Radio and Television Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5027": {
+    "credits": 2,
+    "title": "Educational Content Development Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5029": {
+    "credits": 2,
+    "title": "Presentation Techniques Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5031": {
+    "credits": 2,
+    "title": "Media Commercials Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5033": {
+    "credits": 2,
+    "title": "Media Soaps and Society Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5040": {
+    "credits": 2,
+    "title": "Integrated Marketing Communication Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5042": {
+    "credits": 2,
+    "title": "Advanced Web Technologies Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5044": {
+    "credits": 2,
+    "title": "Database Management Systems Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5046": {
+    "credits": 2,
+    "title": "Mobile Application Development Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5048": {
+    "credits": 2,
+    "title": "Character Animation Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5050": {
+    "credits": 2,
+    "title": "Virtual and Augmented Reality Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5052": {
+    "credits": 2,
+    "title": "Visual Effects Lab",
+    "branch": "MSc Electronic Media (5 Years)",
+    "regulation": "2019"
+  },
+  "XM5054": {
+    "credits": 2,
+    "title": "3D Game Development Lab",
+    "branch": "MSc Electronic Media (5 Years)",
     "regulation": "2019"
   }
 }

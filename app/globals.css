@@ -1011,3 +1011,25 @@ input:checked + .slider:before {
   color: var(--text-secondary);
   border: 1px solid var(--border-color);
 }
+
+/* Interactive Sortable Tables */
+.data-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+.data-table th.sortable:hover {
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.02);
+}
+.data-table th.sortable.active {
+  color: var(--secondary);
+  background: rgba(139, 92, 246, 0.05);
+}
+.data-table tr.interactive-row {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.data-table tr.interactive-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}

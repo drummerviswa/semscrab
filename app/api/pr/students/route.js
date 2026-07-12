@@ -90,7 +90,8 @@ export async function GET(req) {
       shareWithPR: isPR ? true : undefined,
       OR: search ? [
         { name: { contains: search } },
-        { rollNumber: { contains: search } }
+        { rollNumber: { contains: search } },
+        { branch: { contains: search } }
       ] : undefined
     };
 

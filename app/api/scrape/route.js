@@ -405,7 +405,11 @@ export async function POST(req) {
   try {
     const user = await getUserFromRequest(req);
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    if (user.role !== 'STUDENT') return NextResponse.json({ error: 'Only student accounts can trigger SEMS scraping' }, { status: 403 });
+    
+    const allowedRoles = ['STUDENT', 'PR', 'ADMIN'];
+    if (!allowedRoles.includes(user.role)) {
+      return NextResponse.json({ error: 'Only student, PR, or Admin accounts can trigger SEMS scraping' }, { status: 403 });
+    }
 
     // Parse the body if available
     let body = {};
@@ -417,6 +421,11 @@ export async function POST(req) {
 
     const { semsPassword, captchaCode, sessionCookie } = body;
 
+    let targetRollNumber = user.rollNumber;
+    if (user.role === 'ADMIN' && body.rollNumber) {
+      targetRollNumber = body.rollNumber;
+    }
+
     // IF semsPassword is not provided -> trigger the local Playwright browser scraper
     if (!semsPassword) {
       const IS_SERVERLESS = process.env.VERCEL === '1' || process.env.NODE_ENV === 'production';
@@ -427,13 +436,13 @@ export async function POST(req) {
         }, { status: 503 });
       }
 
-      console.log(`API trigger (Local Playwright): Starting headed browser scrape for ${user.rollNumber}...`);
+      console.log(`API trigger (Local Playwright): Starting headed browser scrape for ${targetRollNumber}...`);
       const { runSEMSScraper } = await import('@/lib/scraper');
-      const scrapeResult = await runSEMSScraper(user.rollNumber);
+      const scrapeResult = await runSEMSScraper(targetRollNumber);
 
       const [semesters, grades] = await Promise.all([
-        prisma.semesterSummary.findMany({ where: { userRollNumber: user.rollNumber }, orderBy: { semesterNo: 'asc' } }),
-        prisma.courseGrade.findMany({ where: { userRollNumber: user.rollNumber }, orderBy: [{ semesterNo: 'asc' }, { courseCode: 'asc' }] })
+        prisma.semesterSummary.findMany({ where: { userRollNumber: targetRollNumber }, orderBy: { semesterNo: 'asc' } }),
+        prisma.courseGrade.findMany({ where: { userRollNumber: targetRollNumber }, orderBy: [{ semesterNo: 'asc' }, { courseCode: 'asc' }] })
       ]);
 
       return NextResponse.json({ 
@@ -445,14 +454,14 @@ export async function POST(req) {
     }
 
     // IF semsPassword is provided -> trigger the HTTP CAPTCHA scraper (works on Vercel)
-    console.log(`API trigger (HTTP Scraper): Authenticating roll number ${user.rollNumber}...`);
+    console.log(`API trigger (HTTP Scraper): Authenticating roll number ${targetRollNumber}...`);
 
     // 1. Submit login POST request to SEMS portal
     // SEMS portal expects the password to be hashed client-side with SHA-512 before submission
     const hashedPassword = crypto.createHash('sha512').update(semsPassword).digest('hex');
 
     const loginParams = new URLSearchParams();
-    loginParams.append('username', user.rollNumber);
+    loginParams.append('username', targetRollNumber);
     loginParams.append('password', hashedPassword);
     loginParams.append('captcha_code', captchaCode);
     const postBody = loginParams.toString();
@@ -580,7 +589,7 @@ export async function POST(req) {
       const opt = sortedOptions[i];
       console.log(`HTTP Scraper: Fetching marks for ${opt.text} via AJAX...`);
       
-      const ajaxPostBody = `regno=${encodeURIComponent(user.rollNumber)}&session=${encodeURIComponent(opt.value)}`;
+      const ajaxPostBody = `regno=${encodeURIComponent(targetRollNumber)}&session=${encodeURIComponent(opt.value)}`;
 
       const optRes = await httpsPost('https://acoe.annauniv.edu/sems/student/get_mark', ajaxPostBody, {
         'Cookie': `ci_session=${activeCookie}`,
@@ -632,13 +641,13 @@ export async function POST(req) {
     // 5. Update database inside a single transaction
     await prisma.$transaction(async (tx) => {
       // Delete old grades and summaries for this student
-      await tx.courseGrade.deleteMany({ where: { userRollNumber: user.rollNumber } });
-      await tx.semesterSummary.deleteMany({ where: { userRollNumber: user.rollNumber } });
+      await tx.courseGrade.deleteMany({ where: { userRollNumber: targetRollNumber } });
+      await tx.semesterSummary.deleteMany({ where: { userRollNumber: targetRollNumber } });
 
       // Insert new grades
       await tx.courseGrade.createMany({
         data: allSemesterGrades.map(g => ({
-          userRollNumber: user.rollNumber,
+          userRollNumber: targetRollNumber,
           semesterNo: g.semesterNo,
           courseCode: g.courseCode,
           courseTitle: g.courseTitle,
@@ -656,30 +665,34 @@ export async function POST(req) {
 
         let totalPoints = 0;
         let totalCredits = 0;
+        let creditsEarned = 0;
         semGrades.forEach(g => {
-          totalPoints += g.credits * g.gradePoints;
-          totalCredits += g.credits;
+          if (g.status === 'PASS' || g.gradePoints > 0) {
+            totalPoints += g.credits * g.gradePoints;
+            totalCredits += g.credits;
+            creditsEarned += g.credits;
+          }
         });
 
         const gpa = totalCredits > 0 ? parseFloat((totalPoints / totalCredits).toFixed(2)) : 0.0;
 
         await tx.semesterSummary.create({
           data: {
-            userRollNumber: user.rollNumber,
+            userRollNumber: targetRollNumber,
             semesterNo: semNo,
             gpa,
-            creditsEarned: totalCredits
+            creditsEarned
           }
         });
       }
     });
 
-    console.log(`HTTP Scraper: Successfully synchronized ${allSemesterGrades.length} courses for ${user.rollNumber}.`);
+    console.log(`HTTP Scraper: Successfully synchronized ${allSemesterGrades.length} courses for ${targetRollNumber}.`);
 
     // Fetch refreshed summaries and grades
     const [refreshedSemesters, refreshedGrades] = await Promise.all([
-      prisma.semesterSummary.findMany({ where: { userRollNumber: user.rollNumber }, orderBy: { semesterNo: 'asc' } }),
-      prisma.courseGrade.findMany({ where: { userRollNumber: user.rollNumber }, orderBy: [{ semesterNo: 'asc' }, { courseCode: 'asc' }] })
+      prisma.semesterSummary.findMany({ where: { userRollNumber: targetRollNumber }, orderBy: { semesterNo: 'asc' } }),
+      prisma.courseGrade.findMany({ where: { userRollNumber: targetRollNumber }, orderBy: [{ semesterNo: 'asc' }, { courseCode: 'asc' }] })
     ]);
 
     return NextResponse.json({
@@ -700,20 +713,30 @@ export async function PUT(req) {
   try {
     const user = await getUserFromRequest(req);
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    if (user.role !== 'STUDENT') return NextResponse.json({ error: 'Only student accounts can import grades' }, { status: 403 });
+    
+    const allowedRoles = ['STUDENT', 'PR', 'ADMIN'];
+    if (!allowedRoles.includes(user.role)) {
+      return NextResponse.json({ error: 'Only student, PR, or Admin accounts can import grades' }, { status: 403 });
+    }
 
-    const { semesterNo, html } = await req.json();
+    const body = await req.json();
+    const { semesterNo, html } = body;
     if (!semesterNo || !html) return NextResponse.json({ error: 'Semester number and HTML source are required' }, { status: 400 });
 
     const parsedSemNo = parseInt(semesterNo);
     if (isNaN(parsedSemNo)) return NextResponse.json({ error: 'Invalid semester number' }, { status: 400 });
 
-    console.log(`API trigger: Starting manual parse for ${user.rollNumber}, Semester ${parsedSemNo}...`);
-    const parseResult = await parseManualHTML(user.rollNumber, parsedSemNo, html);
+    let targetRollNumber = user.rollNumber;
+    if (user.role === 'ADMIN' && body.rollNumber) {
+      targetRollNumber = body.rollNumber;
+    }
+
+    console.log(`API trigger: Starting manual parse for ${targetRollNumber}, Semester ${parsedSemNo}...`);
+    const parseResult = await parseManualHTML(targetRollNumber, parsedSemNo, html);
 
     const [semesters, grades] = await Promise.all([
-      prisma.semesterSummary.findMany({ where: { userRollNumber: user.rollNumber }, orderBy: { semesterNo: 'asc' } }),
-      prisma.courseGrade.findMany({ where: { userRollNumber: user.rollNumber }, orderBy: [{ semesterNo: 'asc' }, { courseCode: 'asc' }] })
+      prisma.semesterSummary.findMany({ where: { userRollNumber: targetRollNumber }, orderBy: { semesterNo: 'asc' } }),
+      prisma.courseGrade.findMany({ where: { userRollNumber: targetRollNumber }, orderBy: [{ semesterNo: 'asc' }, { courseCode: 'asc' }] })
     ]);
 
     return NextResponse.json({ success: true, message: `Successfully imported ${parseResult.count} courses for Semester ${parsedSemNo}.`, semesters, grades });
